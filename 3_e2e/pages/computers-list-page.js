@@ -14,4 +14,18 @@ export class ComputersListPage {
     await this.page.locator("#add").click();
     await expect(this.page.locator("#main h1")).toHaveText("Add a computer");
   }
+
+  async searchBy(searchText) {
+    await this.page.locator("#searchbox").fill(searchText);
+  }
+
+  async clickFilter() {
+    await this.page.locator("#searchsubmit").click();
+    }
+
+  async verifyItemsCountInTable(expectedCount) {
+    await expect(this.page.locator("table tbody tr")).toHaveCount(expectedCount);
+    }  
+
+  
 }
