@@ -40,9 +40,8 @@ test("test to check computers list search feature when search result doesn’t m
   let computersListPage = new ComputersListPage(page);
   await computersListPage.goto();
   await computersListPage.searchby('noMatch');
-  await page.locator("#searchbox").fill('ABCD');
-  await page.locator("#searchsubmit").click();
-  await expect(page.locator('#main > div.well > em')).toContainText('Nothing to display');
+  await computersListPage.verifyNodata();
+
 
 
 
