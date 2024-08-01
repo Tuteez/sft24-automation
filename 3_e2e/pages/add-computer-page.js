@@ -1,5 +1,3 @@
-import { ComputerData } from "../test-data/computer-data";
-
 export class AddComputerPage {
   constructor(page) {
     this.page = page;
@@ -22,7 +20,7 @@ export class AddComputerPage {
   }
 
   async clickAddThisComputer() {
-    await this.page.locator('input[type="submit"]').click();
+    await this.page.locator("[value='Create this computer']").click();
   }
 
   // Task 7 & 8: introduced method to fill all fields
