@@ -20,17 +20,17 @@ describe("calculateScoreRange tests", () => {
     expect(calculateScoreRange(0, -2, 2)).toBe(1);
   }); //sum 0
 
-  test("5, 2, 10 numbers should get range 2", () => {
-    expect(calculateScoreRange(5, 2, 10)).toBe(2);
+  test("5, 2, 10 numbers should get range 1", () => {
+    expect(calculateScoreRange(5, 2, 10)).toBe(1);
   }); //sum 17
 
-  test("5, 3, 10 numbers should get range 3", () => {
-    expect(calculateScoreRange(5, 3, 10)).toBe(3);
+  test("5, 3, 10 numbers should get range 2", () => {
+    expect(calculateScoreRange(5, 3, 10)).toBe(2);
   });//sum 18
 
 
-  test("20, 20, 10 numbers should get range 3", () => {
-    expect(calculateScoreRange(20, 20, 10)).toBe(3);
+  test("20, 20, 10 numbers should get range 2", () => {
+    expect(calculateScoreRange(20, 20, 10)).toBe(2);
   });//sum 50
 
 

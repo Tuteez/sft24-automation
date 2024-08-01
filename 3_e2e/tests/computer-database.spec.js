@@ -71,6 +71,7 @@ test("Verify search feature with one match", async ({ page }) => {
   //table gives one search result"
   await computerListPage.verifyItemCountInTable(1)
 
+})
 });
 
 test("Verify search feature with two match", async ({ page }) => {
@@ -90,20 +91,24 @@ test("Verify search feature with two match", async ({ page }) => {
 });
 
 //Task-5  Introduce setup method (beforeEach) from previously created tests group
-
-test("Verify search feature with one match", async ({ page }) => {
-  let computerListPage = new ComputersListPage(page);
-  //open page
+test.describe("Task 5: verify search using beforeEach method", async () => {
+ let computerListPage;
+ 
+test.beforeEach(async ({page})=>{
+  computerListPage = new ComputersListPage(page);
   await computerListPage.goto();
+  
+})
 
-  //search invalid name
+  test("Search with one match using beforeEach method", async ({ page }) => {
     await computerListPage.searchBy("acer iconia");
-
-  //click filter by name
-  await computerListPage.clickFilterByName();
-
-  //table gives one search result"
-  await computerListPage.verifyItemCountInTable(1)
-
-});
+    await computerListPage.clickFilterByName();
+    await computerListPage.verifyItemCountInTable(1)
+  });
+  
+  test("Search with two match using beforeEach method", async ({ page }) => {
+    await computerListPage.searchBy("acer extensa");
+    await computerListPage.clickFilterByName();
+    await computerListPage.verifyItemCountInTable(2)
+  });
 })
