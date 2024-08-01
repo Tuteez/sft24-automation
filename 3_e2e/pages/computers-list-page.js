@@ -5,13 +5,13 @@ export class ComputersListPage {
     this.page = page;
   }
 
-  async goto() {
-    await this.page.goto("https://computer-database.gatling.io/computers");
-    await expect(this.page).toHaveTitle("Computers database");
+  async goto(url, txt) {
+    await this.page.goto(url);
+    await expect(this.page).toHaveTitle(txt);
   }
 
-  async openNewComputerCreationPage() {
-    await this.page.locator("#add").click();
+  async openNewComputerCreationPage(locator) {
+    await this.page.locator(locator).click();
     await expect(this.page.locator("#main h1")).toHaveText("Add a computer");
   }
 }
