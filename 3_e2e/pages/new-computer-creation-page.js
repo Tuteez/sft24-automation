@@ -1,5 +1,3 @@
-import { expect } from "@playwright/test";
-
 export class NewComputerCreationPage {
   constructor(page) {
     this.page = page;
@@ -18,7 +16,7 @@ export class NewComputerCreationPage {
     await this.page.locator("#company").selectOption(company);
   }
 
-  async clickButton(){
+  async clickButton() {
     await this.page.locator(".btn.primary").click();
   }
 }
