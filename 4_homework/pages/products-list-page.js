@@ -1,3 +1,5 @@
+import { expect } from "@playwright/test";
+
 export class ProductsListPage {
   constructor(page) {
     this.page = page;
@@ -5,13 +7,32 @@ export class ProductsListPage {
     this.itemPriceDiv = page.locator('div[class="inventory_item_price"]');
   }
 
+  async goto() {
+    await this.page.goto("https://www.saucedemo.com");
+    await expect(this.page).toHaveTitle("Swag Labs");
+  }
+
+  async loginToPage(usernameFill, passwordFill) {
+    await this.page.locator("#user-name").fill(usernameFill);
+    await this.page.locator("#password").fill(passwordFill);
+    await this.page.locator("#login-button").click();
+  }
+
+  // 1. Add dropdown element with options to sort by on the right top corner of the page.
+  async sortBy(input) {
+    const dropdown = this.page.locator('.product_sort_container');
+    await dropdown.selectOption(input);
+  }
+
+
+  
   // Below there are functions that can be used to verify if items are sorted as expected
   // It is just an example, any other solution is welcome as well
   // (you can use what is provided or write your own)
 
   /**
    * Checks if products are sorted properly by name
-   * @param {boolean} asc true if list should be sorted in ascending order, else false
+   * @param {boolean} asc true if list should be sorted in ascending rder, else false
    * @returns {boolean} true if list is sorted in correct order
    */
   async isListSortedByName(asc) {
@@ -35,7 +56,6 @@ export class ProductsListPage {
   }
 
   /**
-   *
    * @param {Array} list list of elements to check
    * @param {boolean} asc condition to check. True if should be sorted in ascending order, else false
    * @returns True if list sorted as expected, else false
