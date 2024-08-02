@@ -111,8 +111,39 @@ test.describe("Verify search feature with parametrization", async () => {
   ];
 
   searchCriterias.forEach((searchCriteria) => {
-    test(`Verify `)
+    test(`Verify search feature with ${searchCriteria.resultCount} match(es)`, async ({ page, }) => {
+      let computersListPage = new ComputersListPage(page);
+
+      await computersListPage.goto();
+      await computersListPage.seachBy(searchCriteria.searchBy);
+
+      await computersListPage.verifyItemsCountInTable(searchCriteria.resultCount);
+    });
   });
 });
 //Task - 7: Create object from values used in initial computer creation test 
+test("Create new computer with test data", async ({ page }) => {
+  let computersListPage = new ComputersListPage(page);
+  let addComputerPage = new AddComputerPage(page);
+  let computerData = {
+    name: "New Computer",
+    introduced: "2024-07-31",
+    discontinued: "2024-08-02",
+    company: "Sony",
+  };
+  await computersListPage.goto();
+
+  await computersListPage.openNewComputerCreationPage();
+  await addComputerPage.submitComputer(computerData);
+
+  await computersListPage.checkSuccessMessage();
+});
 //Task - 8: Introduce test data object instead of hardcoded values
+// test("Create new computer with test data - Part 2", async ({ page }) => {
+//   let computerData = new ComputerData(
+//     "New Computer",
+//     "2024-07-31",
+//     "2024-08-02",
+//     "Sony"
+//   );
+// });

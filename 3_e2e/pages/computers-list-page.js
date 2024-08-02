@@ -15,6 +15,9 @@ export class ComputersListPage {
     await expect(this.page.locator("#main h1")).toHaveText("Add a computer");
   }
 
+  async checkSuccessMessage() {
+  }
+
   async seachBy(seachText) {
     await this.page.locator("#searchbox").fill(seachText);
     await this.page.locator("#searchsubmit").click();
