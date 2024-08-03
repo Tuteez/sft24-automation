@@ -18,17 +18,50 @@ export class ProductsListPage {
     await this.page.locator("#login-button").click();
   }
 
-  // 1. Add dropdown element with options to sort by on the right top corner of the page.
+  // SFT-1 1. Add dropdown element with options to sort by on the right top corner of the page.
   async sortBy(input) {
     const dropdown = this.page.locator('.product_sort_container');
+    // SFT-1 3. Products sorting should be performed on option select action.
     await dropdown.selectOption(input);
   }
 
-
+  // SFT-2
+  async addToCartFirstFromProductsList() {
+    const addButton = this.page.locator('.inventory_item button').first();
+    await expect(addButton).toHaveText('Add to cart');
+    await addButton.click();
+    const cartBadge = this.page.locator('[data-test="shopping-cart-badge"]');
+    await expect(cartBadge).toHaveText('1');
+  }
+  async addToCartFirstPreviewProduct() {
+    await this.page.locator('.inventory_item_name').first().click();
+    await this.page.locator("#add-to-cart").click();
+    const cartBadge = this.page.locator('[data-test="shopping-cart-badge"]');
+    await expect(cartBadge).toHaveText('1');
+  }
+  // SFT-2 4. If user clicks ‘Remove’ button related item/product should be removed from the cart.
+  async removeButtonProductsList() { 
+    const removeButton = this.page.locator('.inventory_item button').first();
+    await expect(removeButton).toHaveText('Remove');
+    await removeButton.click();
+    const cartBadge = this.page.locator('[data-test="shopping-cart-badge"]');
+    await expect(cartBadge).toBeHidden();
+  }
+  async removeButtonPreviewProduct() {
+    await this.page.locator("#remove").click();
+    const cartBadge = this.page.locator('[data-test="shopping-cart-badge"]');
+    await expect(cartBadge).toBeHidden();
+  }
+  async removeButtonCart() {
+    await this.page.locator('.cart_item .cart_button').click();
+    const cartBadge = this.page.locator('[data-test="shopping-cart-badge"]');
+    await expect(cartBadge).toBeHidden();
+  }
   
+
+
   // Below there are functions that can be used to verify if items are sorted as expected
   // It is just an example, any other solution is welcome as well
-  // (you can use what is provided or write your own)
 
   /**
    * Checks if products are sorted properly by name

@@ -7,6 +7,12 @@ test.describe("SFT-1 Sorting functionality on Products list", async () => {
   test.beforeEach(async ({ page }) => {
     productsListPage = new ProductsListPage(page);
     await productsListPage.goto();
+    // standard_user
+    // locked_out_user
+    // problem_user
+    // performance_glitch_user
+    // error_user
+    // visual_user
     await productsListPage.loginToPage("standard_user", "secret_sauce");
   });
 
@@ -43,24 +49,53 @@ test.describe("SFT-1 Sorting functionality on Products list", async () => {
     const isSorted = await productsListPage.isListSortedByName(true);
     expect(isSorted).toBeTruthy();
   });
+
 });
 
 test.describe("SFT-2 Ability to add swag to cart.", async () => {
   let productsListPage;
 
-//   Acceptance criteria
-// 1. Add button ‘Add to cart’ to following system places:
-// a. Products list – to each product card/item.
-// b. Product preview page.
+  test.beforeEach(async ({ page }) => {
+    productsListPage = new ProductsListPage(page);
+    await productsListPage.goto();
+    await productsListPage.loginToPage("standard_user", "secret_sauce");
+  });
 
-// 2. Once the user clicks on the button ‘Add to cart’, one piece of selected swag should be
-// added to the cart. (There is no possibility to add more than one).
-// 3. If there is at least one product added to the cart, button ‘Remove’ should be added to
-// following places:
-// a. Cart – for each product separately.
-// b. Products list – to each product card/item.
-// c. Product preview page.
-// 4. If user clicks ‘Remove’ button related item/product should be removed from the cart.
+  // 1. Add button ‘Add to cart’ to following system places:
+  // a. Products list – to each product card/item.
+  test("Add an item to the cart from the products list", async () => {
+    await productsListPage.addToCartFirstFromProductsList();
+  });
+  // b. Product preview page.
+  test("Add an item to the cart from the product preview page", async () => {
+    await productsListPage.addToCartFirstPreviewProduct();
+  });
 
- 
+  // 2. Once the user clicks on the button ‘Add to cart’, one piece of selected swag should be
+  // added to the cart. (There is no possibility to add more than one).
+  test("Add the item once", async ({ page })  => {
+    await productsListPage.addToCartFirstFromProductsList();
+    await page.locator('.inventory_item_name').first().click();
+    await expect(page.locator("#remove")).toBeVisible();
+  });
+
+  // 3. If there is at least one product added to the cart, button ‘Remove’ should be added to
+  // following places:
+  // a. Cart – for each product separately.
+  test("Remove items from the cart", async ({ page }) => {
+    await productsListPage.addToCartFirstFromProductsList();
+    await page.locator("#shopping_cart_container").click();
+    await productsListPage.removeButtonCart();
+  });
+  // b. Products list – to each product card/item.
+  test("Remove item from cart from the products list", async () => {
+    await productsListPage.addToCartFirstFromProductsList();
+    await productsListPage.removeButtonProductsList();
+  });
+  // c. Product preview page.
+  test("Remove item from cart from the products preview page", async () => {
+    await productsListPage.addToCartFirstPreviewProduct();
+    await productsListPage.removeButtonPreviewProduct();
+  });
+
 });
