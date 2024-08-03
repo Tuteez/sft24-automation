@@ -1,4 +1,4 @@
-import { test, expect } from "@playwright/test";
+import { test, expect, ba } from "@playwright/test";
 import { LoginPage } from "../pages/login-page";
 import { ProductsListPage } from "../pages/products-list-page"
 
@@ -18,19 +18,16 @@ test.describe('SFT-1 Sorting functionality on Products list.', () => {
             loginPage = new LoginPage(page)
             productsListPage = new ProductsListPage(page);
     
-            await loginPage.goto('/');
+            await page.goto('/');
             await loginPage.login(userName, password);
-            expect(page).toHaveURL('/inventory.html');
-        })
-            
-        test.afterEach(async () => {
-            await page.close();
+            expect(page).toHaveURL(/inventory.html/);
         });
 
-
         test(`Check if sorting button exists for user: ${userName}`, async ({ page }) => {
-         await page.goto('/inventory.html');
-            expect(productsListPage.sortingButton).toBeVisible();
+            await page.goto('/inventory.html');
+        await    expect(productsListPage.sortingButton).toBeVisible();
+
+           await page.close();
         });
       });
 });
