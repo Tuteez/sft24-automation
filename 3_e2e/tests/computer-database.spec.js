@@ -107,7 +107,7 @@ test.describe('Verify searching functionality', async () => {
     }
   ]
   testData.forEach(({ testData }) => {
-    test(`search`, async ({ page }) => {
+    test(`Search ${testData.input}`, async ({ page }) => {
       const computersListPage = new ComputersListPage(page);
   
       await computersListPage.goto();
