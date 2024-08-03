@@ -1,12 +1,15 @@
 export class ProductsListPage {
   constructor(page) {
     this.page = page;
-    this.secondaryHeaderOnTheRight = page.locator('[data-test="secondary-header"] .right_component');
-    this.sortingButton = this.secondaryHeaderOnTheRight.locator('[data-test="product-sort-container"]');
+    this.secondaryHeaderOnTheRight = page.locator(
+      '[data-test="secondary-header"] .right_component'
+    );
+    this.sortingButton = this.secondaryHeaderOnTheRight.locator(
+      '[data-test="product-sort-container"]'
+    );
     this.itemNameDiv = page.locator('div[class="inventory_item_name"]');
     this.itemPriceDiv = page.locator('div[class="inventory_item_price"]');
   }
-
 
   // Below there are functions that can be used to verify if items are sorted as expected
   // It is just an example, any other solution is welcome as well
