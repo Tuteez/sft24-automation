@@ -4,16 +4,25 @@ export class ProductsListPage {
     this.secondaryHeaderOnTheRight = page.locator(
       '[data-test="secondary-header"] .right_component'
     );
-    this.sortingButton = this.secondaryHeaderOnTheRight.locator(
-      '[data-test="product-sort-container"]'
-    );
+    this.sortingButton = this.page.locator(".product_sort_container");
+    this.sortingOptionAZ = this.page.locator('option[value="az"]');
+    this.sortingOptionZA = this.page.locator('option[value="za"]');
+    this.sortingOptionLoHi = this.page.locator('option[value="lohi"]');
+    this.sortingOptionHiLo = this.page.locator('option[value="hilo"]');
+    this.activeSortingOption = this.page.locator('[data-test="active-option"]');
+    this.addToChartButtton = this.page.locator(".pricebar> button");
     this.itemNameDiv = page.locator('div[class="inventory_item_name"]');
     this.itemPriceDiv = page.locator('div[class="inventory_item_price"]');
   }
+  async getActiveOptionText() {
+    return this.activeSortingOption.textContent();
+  }
 
-  // Below there are functions that can be used to verify if items are sorted as expected
-  // It is just an example, any other solution is welcome as well
-  // (you can use what is provided or write your own)
+  async sortBy(input) {
+    const dropdown = this.page.locator(".product_sort_container");
+
+    await dropdown.selectOption(input);
+  }
 
   /**
    * Checks if products are sorted properly by name
