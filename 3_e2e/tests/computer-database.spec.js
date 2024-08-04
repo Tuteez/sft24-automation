@@ -20,8 +20,8 @@ test("Create new computer", async ({ page }) => {
 
 //Task - 2: Update existing test to verify computer creation workflow with POM
 test("Create new computer with page object model", async ({ page }) => {
-  let computersListPage = new ComputersListPage(page);
-  let addNewComputer = new AddNewComputer(page);
+  const computersListPage = new ComputersListPage(page);
+  const addNewComputer = new AddNewComputer(page);
 
   await computersListPage.goto();
   await computersListPage.openNewComputerCreationPage();
@@ -38,8 +38,8 @@ test("Create new computer with page object model", async ({ page }) => {
 // Task - 3: Create test to check computers list search feature when search result doesn’t match any records
 
 test("Search Box test - non existing", async ({ page }) => {
-  let computersListPage = new ComputersListPage(page);
-  let searchResultPage = new SearchResultPage(page);
+  const computersListPage = new ComputersListPage(page);
+  const searchResultPage = new SearchResultPage(page);
 
   await computersListPage.goto();
   await computersListPage.fillSearchBox('KRISTINA');
@@ -49,22 +49,27 @@ test("Search Box test - non existing", async ({ page }) => {
 
 //Task - 4: Add at least two more tests for searching feature and move them all to same group (describe)
 
-test.describe("testing search box functions", async () =>{
-  let computersListPage = new ComputersListPage(page);
-  let searchResultPage = new SearchResultPage(page);
+test.describe("testing search box functions", () =>{
+
   test("Search Box test - non existing", async ({ page }) => {
+    let computersListPage = new ComputersListPage(page);
+    let searchResultPage = new SearchResultPage(page);
     await computersListPage.goto();
     await computersListPage.fillSearchBox('KRISTINA');
     await computersListPage.clickSubmitSearch();
     await computersListPage.noMatchingRecCheck();
   });
   test("Search Box test - 1 result", async ({ page }) =>{ 
+    let computersListPage = new ComputersListPage(page);
+    let searchResultPage = new SearchResultPage(page);
     await computersListPage.goto();
     await computersListPage.fillSearchBox('Acer Extensa 5220');
     await computersListPage.clickSubmitSearch();
     await searchResultPage.countSearchResults(1);}
   )
   test("Search Box test - 2 result", async ({ page }) =>{ 
+    let computersListPage = new ComputersListPage(page);
+    let searchResultPage = new SearchResultPage(page);
     await computersListPage.goto();
     await computersListPage.fillSearchBox('Acer Extensa');
     await computersListPage.clickSubmitSearch();
@@ -74,4 +79,84 @@ test.describe("testing search box functions", async () =>{
 
   // Task 5: Introducing beforeEach
 
+  test.describe("testing search box functions with before Each", () =>{
+    let computersListPage;
+    let searchResultPage;
+
+    test.beforeEach(async ({page})=>{
+      computersListPage = new ComputersListPage(page);
+      searchResultPage = new SearchResultPage(page);
+      await computersListPage.goto();
+    });
+
+    test("Search Box test - non existing", async ({ page }) => {
+      await computersListPage.fillSearchBox('KRISTINA');
+      await computersListPage.clickSubmitSearch();
+      await computersListPage.noMatchingRecCheck();
+    });
+    test("Search Box test - 1 result", async ({ page }) =>{ 
+    
+      await computersListPage.fillSearchBox('Acer Extensa 5220');
+      await computersListPage.clickSubmitSearch();
+      await searchResultPage.countSearchResults(1);}
+    )
+    test("Search Box test - 2 result", async ({ page }) =>{ 
+      await computersListPage.fillSearchBox('Acer Extensa');
+      await computersListPage.clickSubmitSearch();
+      await searchResultPage.countSearchResults(2);}
+    )
+    })
+
+    // Task 6: parameterization;
+    test.describe("testing search box with before Each and parameterization", () =>{
+      let computersListPage;
+      let searchResultPage;
   
+      test.beforeEach(async ({page})=>{
+        computersListPage = new ComputersListPage(page);
+        searchResultPage = new SearchResultPage(page);
+        await computersListPage.goto();
+      });
+
+      const computers=[
+        {pc:'KRISTINA', expectValue:0},
+        {pc:'Acer Extensa 5220', expectValue:1},
+        {pc:'Acer Extensa', expectValue:2},
+        {pc:'Acer', expectValue:3},
+        {pc:'Asci', expectValue:6},
+      ];
+  
+      computers.forEach(({pc,expectValue})=>{
+      test(`Searching for ${pc} - ${expectValue} result`, async ({ page }) =>{ 
+        await computersListPage.fillSearchBox(pc);
+        await computersListPage.clickSubmitSearch();
+        await searchResultPage.countSearchResults(expectValue);
+      });
+    });
+  });
+
+  // 7.8. Defining new computer as an object;
+
+  
+test("Create new computer with object information", async ({ page }) => {
+  const computersListPage = new ComputersListPage(page);
+  const addNewComputer = new AddNewComputer(page);
+
+  const NewComputerToCreate = {
+    name:'Super PC',
+    introduced: '1999-11-12',
+    discont: '2000-10-10',
+    company: 'IBM'
+  };
+
+  await computersListPage.goto();
+  await computersListPage.openNewComputerCreationPage();
+
+  await addNewComputer.fillName(NewComputerToCreate.name);
+  await addNewComputer.fillIntroduced(NewComputerToCreate.introduced);
+  await addNewComputer.fillDicscont(NewComputerToCreate.discont);
+  await addNewComputer.fillCompany(NewComputerToCreate.company);
+  await addNewComputer.clickSubmit();
+
+  await computersListPage.sucessfullNewPC();
+});
