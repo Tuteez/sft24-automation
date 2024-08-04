@@ -19,7 +19,18 @@ export class ProductsListPage {
 
     return await this.isListSorted(list, asc);
   }
-
+  async fillLogin(value){
+    await this.page.locator('input[id="user-name"]').fill(value);
+  }
+  async fillPassword(){
+    await this.page.locator('input[id="password"]').fill("secret_sauce");
+  }
+  async login(){
+    await this.page.locator('input[type="submit"]').click();
+  }
+  async changeList(value){
+    await this.page.locator("select[class='product_sort_container']").selectOption(value);
+  }
   /**
    * Checks if products are sorted properly by price
    * @param {boolean} asc true if list should be sorted in ascending order, else false
