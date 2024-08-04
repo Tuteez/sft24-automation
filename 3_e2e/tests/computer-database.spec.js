@@ -66,7 +66,7 @@ test("Verify search feature with no data", async ({page}) => {
 
 })
 
-//Task 5 introduce setup method (beforeEach)
+//Task 5 introduce setup me           thod (beforeEach)
 
 test.describe("Task 5: Verify search feature with beforeeach", async () => {
   let computersListPage;
