@@ -15,13 +15,13 @@ export class productPreviewPage {
   async isProductInCart() {
     await expect(this.cartBadge).toBeVisible({ timeout: 2500 });
     await expect(this.cartBadge).toHaveText('1');
-  }
+  };
 
   async removeFromCart() {
     await this.removeFromCartButton.click();
-  }
+  };
 
   async isProductRemovedFromCart() {
     await expect(this.cartBadge).not.toBeVisible();
-  }
+  };
 };

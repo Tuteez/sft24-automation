@@ -26,10 +26,9 @@ export class cartPage {
   };
 
   async removeItemFromCart() {
-    const initialCount = await this.page.locator("button:has-text('Remove')").count()
+    const initialCount = await this.page.locator("button:has-text('Remove')").count();
     await this.page.locator("button:has-text('Remove')").click();
-    const updatedCount = await this.page.locator("button:has-text('Remove')").count()
+    const updatedCount = await this.page.locator("button:has-text('Remove')").count();
     expect(updatedCount).toBe(initialCount - 1);
   };
-
-}
+};

@@ -107,10 +107,6 @@ test.beforeEach(async ({ page }) => {
         await expect(ProductsPage.addButtonLocator(productName)).toHaveText('Add to cart');
     });
 
-//Example products:
-//const productName = "Test.allTheThings() T-Shirt (Red)";
-//const productName = "Sauce Labs Backpack";
-
     test("4. Cart has an item in it and it can be removed", async ({ page }) => {
         let ProductsPage = new ProductsListPage(page);
         const productName = Products.TSHIRT_RED // Use product from list.
