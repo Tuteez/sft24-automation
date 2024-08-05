@@ -1,8 +1,10 @@
 export class ProductsListPage {
   constructor(page) {
     this.page = page;
-    this.itemNameDiv = page.locator('div[class="inventory_item_name"]');
+    this.itemNameDiv = page.locator(".inventory_item_name");
+    //kazkodel buves selector neveike ('div[class="inventory_item_name"]');
     this.itemPriceDiv = page.locator('div[class="inventory_item_price"]');
+    //cia selector veike
   }
 
   // Below there are functions that can be used to verify if items are sorted as expected
@@ -16,7 +18,7 @@ export class ProductsListPage {
    */
   async isListSortedByName(asc) {
     let list = await this.itemNameDiv.allTextContents();
-
+    console.log(">>>>>>>>>>>", list);
     return await this.isListSorted(list, asc);
   }
 
@@ -30,7 +32,7 @@ export class ProductsListPage {
     list.forEach((element, index) => {
       list[index] = parseFloat(element.slice(1));
     });
-
+    console.log(">>>>>>>>>>>", list);
     return await this.isListSorted(list, asc);
   }
 
@@ -42,10 +44,98 @@ export class ProductsListPage {
    */
   async isListSorted(list, asc) {
     return list.every(function (num, idx, arr) {
+      //every - jei su kiekviena reiksme bus true, tuomet tik ir bus true, jei kazkuri neatitiks, bus false
       if (asc === true) {
         return num <= arr[idx + 1] || idx === arr.length - 1 ? true : false;
-      }
+      } //num <= arr[idx + 1] tikrina ar dabartine tikrinama reiksme yra ne didesne uz sekancia po jos
+      // idx === arr.length - 1 tikrina ar tai yra paskutine reiksme
       return num >= arr[idx + 1] || idx === arr.length - 1 ? true : false;
-    });
+    }); //tikrina ar dabartine tikrinama reiksme yra ne zemesne nei sekanti
   }
+
+  //my functionalities
+
+  //Show dropdown element location
+  /*
+  async getElementLocation() {
+    return await this.page
+      .locator(".product_sort_container")
+      .evaluate((element) => {
+        return element.getBoundingClientRect();
+      });
+  }
+  */
+  async getAllSortingOptions() {
+    return await this.page.locator("option");
+  }
+
+  async getSortingOptionByValue(value) {
+    return await this.page.locator(`option[value="${value}"]`);
+  }
+
+  async clickFilterButton() {
+    await this.page.locator(".product_sort_container").click();
+  }
+
+  async selectSortingOption(option) {
+    await this.page.locator(".product_sort_container").selectOption(option);
+  }
+
+  async getActiveSortingOption() {
+    return await this.page.locator(".active_option");
+  }
+  //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+  //return how much items there are in product list
+  async getAllInventoryItemCount() {
+    return await this.page.locator(".inventory_item").count();
+  }
+  //return how much 'Add to cart' buttons there are in productsListPage
+  async getAllAddToCartButtonCount() {
+    return await this.page.locator(".btn").count();
+  }
+
+  //add item to cart in product list page
+  async addItemToCart() {
+    await this.page.waitForSelector("#add-to-cart-sauce-labs-backpack");
+    await this.page.locator("#add-to-cart-sauce-labs-backpack").click();
+  }
+
+  //return products titles
+  async getProductsTitles() {
+    return await this.page.locator(".inventory_item_name").all();
+  }
+
+  //check if cart icon have badge after one item is added
+  async getCartIconBadge() {
+    return await this.page.locator(".shopping_cart_badge");
+  }
+
+  //check if theres remove button in product list
+  async getRemoveButton() {
+    await this.page.waitForSelector("#remove-sauce-labs-backpack");
+    return await this.page.locator("#remove-sauce-labs-backpack");
+  }
+
+  //  await productsListPage.goToEachProductPreviewPage();
+  //go to product preview page of each item from productsListPage
+  async goToEachProductPreviewPage() {
+    //get all the elements
+    const items = await this.page.locator(".inventory_item_name").all();
+    //loops to go through all elements
+    for (let i = 0; i < items.length; i++) {
+      //click on the item
+      await items[i].click();
+      //wait for the product preview page to be loaded
+      await this.page.waitForSelector(".inventory_details_name");
+      //check if product preview page has 'Add to cart' button
+      await this.page.locator("#add-to-cart").click();
+      //await this.page.locator("#remove").click();
+
+      //go back to the main product list page
+      await this.page.goBack();
+      //wait for product list page to be loaded
+      await this.page.waitForSelector(".inventory_item_name");
+    }
+  } //arba turbut buvo galima tiesiog click ".inventory_item_name", return "#add-to-cart" count, expect count to be 1
 }
