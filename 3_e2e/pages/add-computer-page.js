@@ -1,17 +1,8 @@
-Vilnius/homework-Lurde-Andrijauskaite
-import { expect } from "@playwright/test";
-import { name } from "../playwright.config";
 import { ComputerData } from "../test-data/computer-data";
-main
 
 export class AddComputerPage {
   constructor(page) {
     this.page = page;
-  }
-
-Vilnius/homework-Lurde-Andrijauskaite
-  async addComputerName(name) {
-    await this.page.locator('#name').fill(name);
   }
 
   async fillComputerName(name) {
@@ -45,4 +36,3 @@ Vilnius/homework-Lurde-Andrijauskaite
     await this.page.locator('input[type="submit"]').click();
   }
 }
-main
