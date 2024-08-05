@@ -27,19 +27,20 @@ test.describe("SFT-1 Sorting functionality on Products list check.", async () =>
       page,
     }) => {
       //Checks if the element exists on the secondary Header on the right side
+      expect(
+        await productsListPage.sortingButtonLocationIsCorrect()
+      ).toBeTruthy();
       await expect(productsListPage.sortingButton).toBeVisible();
     });
     test(`Check available sorting options for user: ${userName}`, async ({
       page,
     }) => {
-      await productsListPage.sortingButton.evaluateAll(async (options) => {
-        console.log("options", options[0]);
-        return await options[0].showPicker();
-      });
-      await expect(productsListPage.sortingOptionAZ).toBeTruthy();
-      await expect(productsListPage.sortingOptionZA).toBeTruthy();
-      await expect(productsListPage.sortingOptionLoHi).toBeTruthy();
-      await expect(productsListPage.sortingOptionHiLo).toBeTruthy();
+      //did not work, otherwise beVisible() should have been used
+      await productsListPage.clickSortingButton();
+      expect(await productsListPage.sortingOptionAZ).toBeTruthy();
+      expect(await productsListPage.sortingOptionZA).toBeTruthy();
+      expect(await productsListPage.sortingOptionLoHi).toBeTruthy();
+      expect(await productsListPage.sortingOptionHiLo).toBeTruthy();
     });
     test(`By default, products should be sorted by Name (A to Z) for user: ${userName}`, async ({
       page,
@@ -67,7 +68,6 @@ test.describe("SFT-1 Sorting functionality on Products list check.", async () =>
     test(`Check if sorting option is Price hight to low sorts correctly for user: ${userName}`, async ({
       page,
     }) => {
-      productsListPage = new ProductsListPage(page);
       await productsListPage.sortingButton.selectOption("hilo");
       await expect(
         await productsListPage.isListSortedByPrice(false)
@@ -76,12 +76,9 @@ test.describe("SFT-1 Sorting functionality on Products list check.", async () =>
     test(`Check if sorting option is Price low to high sorts correctly for user: ${userName}`, async ({
       page,
     }) => {
-      productsListPage = new ProductsListPage(page);
-
       await productsListPage.sortingButton.selectOption("lohi");
-      var aa = await productsListPage.isListSortedByPrice(true);
-
-      expect(aa).toBeTruthy();
+      var sortingIsCorrect = await productsListPage.isListSortedByPrice(true);
+      expect(sortingIsCorrect).toBeTruthy();
     });
   });
 });

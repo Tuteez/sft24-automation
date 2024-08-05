@@ -4,18 +4,37 @@ export class ProductsListPage {
     this.secondaryHeaderOnTheRight = page.locator(
       '[data-test="secondary-header"] .right_component'
     );
+    this.firstAddToChartButton = this.page
+      .locator("div.pricebar > button")
+      .first();
     this.sortingButton = this.page.locator(".product_sort_container");
     this.sortingOptionAZ = this.page.locator('option[value="az"]');
     this.sortingOptionZA = this.page.locator('option[value="za"]');
     this.sortingOptionLoHi = this.page.locator('option[value="lohi"]');
     this.sortingOptionHiLo = this.page.locator('option[value="hilo"]');
     this.activeSortingOption = this.page.locator('[data-test="active-option"]');
-    this.addToChartButtton = this.page.locator(".pricebar> button");
+    this.addToCartButtton = this.page.locator(".pricebar > button");
+    this.itemName = this.page.locator(".inventory_item_name");
     this.itemNameDiv = page.locator('div[class="inventory_item_name"]');
     this.itemPriceDiv = page.locator('div[class="inventory_item_price"]');
+    this.cartBadge = page.locator(".shopping_cart_badge");
+  }
+  async sortingButtonLocationIsCorrect() {
+    return this.secondaryHeaderOnTheRight.locator(".product_sort_container");
+  }
+  async getItemByIndex(number) {
+    const addToCartButtons = await this.addToCartButtton.all();
+    let addToCartButton = addToCartButtons.at(number);
+    return addToCartButton;
   }
   async getActiveOptionText() {
     return this.activeSortingOption.textContent();
+  }
+  async clickSortingButton() {
+    this.sortingButton.evaluateAll(async (options) => {
+      console.log("options", options[0]);
+      return await options[0].showPicker();
+    });
   }
 
   async sortBy(input) {
