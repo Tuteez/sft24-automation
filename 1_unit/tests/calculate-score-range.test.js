@@ -1,3 +1,4 @@
+const { test, expect } = require('@playwright/test');
 const calculateScoreRange = require("../functions/calculate-score-range");
 
 describe("calculateScoreRange tests", () => {

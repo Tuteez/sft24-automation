@@ -39,45 +39,38 @@ export class ProductsViewPage {
         await expect(this.optionHilo).toHaveText(expectedOptions.hilo);
     }
 
-    async azSorting() {
-        let listOfProducts = await this.itemNameDiv.allTextContents();
-        let sortedListOfProducts = listOfProducts.sort();
-        await this.productSortCont.selectOption('az');
-        let azSortedList = await this.itemNameDiv.allTextContents();
-        expect(azSortedList).toEqual(sortedListOfProducts);
+    async isListSorted(list, asc) {
+        return list.every(function (num, idx, arr) {
+          if (asc === true) {
+            return num <= arr[idx + 1] || idx === arr.length - 1 ? true : false;
+          }
+          return num >= arr[idx + 1] || idx === arr.length - 1 ? true : false;
+        });
+      }
+
+    async isListSortedByName(asc) {
+        const option = asc ? 'az' : 'za';
+        await this.productSortCont.selectOption(option);
+
+        let list = await this.itemNameDiv.allTextContents();
+        return await this.isListSorted(list, asc);
     }
 
-    async zaSorting() {
-        let listOfProducts = await this.itemNameDiv.allTextContents();
-        listOfProducts.sort((a, b) => b.localeCompare(a));
-        await this.productSortCont.selectOption('za');
-        let zaSortedList = await this.itemNameDiv.allTextContents();
-        expect(zaSortedList).toEqual(listOfProducts);
+
+    async isListSortedByPrice(asc) {
+        const option = asc ? 'lohi' : 'hilo';
+        await this.productSortCont.selectOption(option);
+
+        let list = await this.itemPriceDiv.allTextContents();
+        list.forEach((element, index) => {
+            list[index] = parseFloat(element.slice(1));
+        });
+        return await this.isListSorted(list, asc);
     }
 
-    async ascendingPriceSorting() {
-        let listOfPrices = await this.itemPriceDiv.allTextContents();
-        listOfPrices = listOfPrices.map(price => parseFloat(price.slice(1)));
-        let sortedListOfPrices = listOfPrices.sort((a, b) => a - b);
-        await this.productSortCont.selectOption('lohi');
-        let priceSortedList = await this.itemPriceDiv.allTextContents();
-        priceSortedList = priceSortedList.map(price => parseFloat(price.slice(1)));
-        expect(priceSortedList).toEqual(sortedListOfPrices);
-    }
+    async isListSortedByNameDefault() {
+        let list = await this.itemNameDiv.allTextContents();
 
-    async priceDescendingSorting() {
-        let listOfPrices = await this.itemPriceDiv.allTextContents();
-        listOfPrices = listOfPrices.map(price => parseFloat(price.slice(1)));
-        let sortedListOfPrices = listOfPrices.sort((a, b) => b - a);
-        await this.productSortCont.selectOption('hilo');
-        let priceSortedList = await this.itemPriceDiv.allTextContents();
-        priceSortedList = priceSortedList.map(price => parseFloat(price.slice(1)));
-        expect(priceSortedList).toEqual(sortedListOfPrices);
-    }
-
-    async DefaultAzSorting() {
-        let listOfProducts = await this.itemNameDiv.allTextContents();
-        let sortedListOfProducts = listOfProducts.sort();
-        expect(listOfProducts).toEqual(sortedListOfProducts);
+        return await this.isListSorted(list, true);
     }
 }

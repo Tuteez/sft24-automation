@@ -28,31 +28,36 @@ test("Dropdown element sorting options testing", async ({ page }) => {
 });
 
 //Testing if ascending sorting works correctly
-test("AZ sorting Test", async ({ page }) => {
+test("A-Z sorting test", async ({ page }) => {
     const productsViewPage = new ProductsViewPage(page);
-    await productsViewPage.azSorting();
-});;
-
-//Testing if descending sorting works correctly
-test("ZA sorting Test", async ({ page }) => {
-    const productsViewPage = new ProductsViewPage(page);
-    await productsViewPage.zaSorting();
+    const isSorted = await productsViewPage.isListSortedByName(true);
+    expect(isSorted).toBe(true);
 });
 
-//Test if price sorting ascending works correctly
-test("Price ascending sorting Test", async ({ page }) => {
+//Testing if descending sorting works correctly
+test("Z-A sorting test", async ({ page }) => {
     const productsViewPage = new ProductsViewPage(page);
-    await productsViewPage.ascendingPriceSorting();
+    const isSorted = await productsViewPage.isListSortedByName(false);
+    expect(isSorted).toBe(true);
+});
+
+// Test if price sorting ascending works correctly
+test("Price ascending sorting test", async ({ page }) => {
+    const productsViewPage = new ProductsViewPage(page);
+    const isSorted = await productsViewPage.isListSortedByPrice(true);
+    expect(isSorted).toBe(true);
 });
 
 //Test if price sorting descending works correctly
-test("Price descending sorting Test", async ({ page }) => {
+test("Price descending sorting test", async ({ page }) => {
     const productsViewPage = new ProductsViewPage(page);
-    await productsViewPage.priceDescendingSorting();
+    const isSorted = await productsViewPage.isListSortedByPrice(false);
+    expect(isSorted).toBe(true);
 });
 
-//Testing default sorting  by Name (A to Z)
-test("Default sorting by Name (A to Z)", async ({ page }) => {
+//Testing if page is A-Z name sorted by default 
+test("Default A-Z sorting Test", async ({ page }) => {
     const productsViewPage = new ProductsViewPage(page);
-    await productsViewPage.DefaultAzSorting();
+    const isSorted = await productsViewPage.isListSortedByNameDefault();
+    expect(isSorted).toBe(true);
 });
