@@ -1,6 +1,5 @@
 import test, { expect } from "@playwright/test";
 import { testData } from "../data/testData";
-// import { testData } from "../data/testData";
 
 export class ProductsListPage {
   constructor(page) {
@@ -34,11 +33,9 @@ export class ProductsListPage {
     if (positionVertical !== "top" && positionHorizontal !== "right") {
       throw new Error(testData.errorMessages.incorrectButtonLocation);
     }
-
     console.log('positionVertical =' + positionVertical + ', positionHorizontal=' + positionHorizontal);
 
   }
-
 
   async findInDropdownList(filterBy) {
     console.log(filterBy);
@@ -62,32 +59,12 @@ export class ProductsListPage {
     await expect(this.page.locator(testData.locators.productSorting)).toContainText(filterBy);
   }
 
-
   async selectInDropdownList(filterBy) {
 
     if (filterBy === "") {
       filterBy = testData.defaultSortingOption;
     }
     await this.page.locator(testData.locators.productSorting).selectOption(filterBy);
-
-    // let sortCheck = false;
-
-    // if (filterBy === testData.sortingOptions.nameAtoZ) {
-    //   sortCheck = await this.isListSortedByName(true);
-
-    // } else if (filterBy === testData.optionText.nameZtoA) {
-    //   sortCheck = await this.isListSortedByName(false);
-
-    // } else if (filterBy === testData.optionText.priceLowToHigh) {
-    //   sortCheck = await this.isListSortedByPrice(true);
-
-    // } else if (filterBy === testData.optionText.priceHighToLow) {
-    //   sortCheck = await this.isListSortedByPrice(false);
-    // }
-
-    // if (sortCheck !== true) {
-    //   throw new Error('List is order doesn\'t work');
-    // }
   }
 
   async getListValues(type) {
@@ -110,12 +87,6 @@ export class ProductsListPage {
     }
   }
 
-  /**
-   *
-   * @param {Array} list list of elements to check
-   * @param {boolean} asc condition to check. True if should be sorted in ascending order, else false
-   * @returns True if list sorted as expected, else false
-   */
   async isListSorted(list, asc) {
     return list.every(function (num, idx, arr) {
       if (asc === true) {
@@ -135,19 +106,15 @@ export class ProductsListPage {
   }
 
   async verifyProductsAddedToCart(numberOfProducts) {
-    await expect(this.page.locator(".shopping_cart_link")).toHaveText(numberOfProducts);
+    await expect(this.page.locator("#shopping_cart_container")).toHaveText(numberOfProducts);
   }
 
   async goToCart() {
-    await this.page.locator(".shopping_cart_link").click();
+    await this.page.locator("#shopping_cart_container").click();
   }
 
   async pressRemoveButton(productName) {
     const item = this.page.locator(`.inventory_item:has(.inventory_item_name:text-is("${productName}"))`);
     await item.locator('button[id*="remove"]').click();
   }
-
-
-
-
 }

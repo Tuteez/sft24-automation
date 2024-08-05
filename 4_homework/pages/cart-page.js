@@ -1,5 +1,4 @@
 import { expect } from "@playwright/test";
-// import { testData } from "../../data/testData";
 
 export class CartPage {
   constructor(page) {
@@ -7,7 +6,7 @@ export class CartPage {
   }
 
   async goToCart() {
-    await this.page.locator(".shopping_cart_link").click();
+    await this.page.locator("#shopping_cart_container").click();
   }
 
   async backToHomePage() {
@@ -20,7 +19,6 @@ export class CartPage {
   }
 
   async verifyThatItemIsRemoved(productName) {
-    this.goToCart();
     const itemLocator = this.page.locator(`.inventory_item_name:text-is("${productName}")`);
     await expect(itemLocator).toHaveCount(0);
   }

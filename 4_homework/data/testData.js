@@ -75,7 +75,14 @@ export const testData = {
         jacket: "Sauce Labs Fleece Jacket",
         onesie: "Sauce Labs Onesie",
         redShirt: "Test.allTheThings() T-Shirt (Red)",
-    }
+    },
+    // dropdownList: {
+    //     nameAToZ: "Name (A to Z)",
+    //     nameZToA: "Name (Z to A)",
+    //     priceLowToHigh: "Price (low to high)",
+    //     priceHighToLow: "Price (high to low)",
+    // }
+
 
 
 

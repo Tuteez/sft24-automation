@@ -1,5 +1,5 @@
 
-import { test, expect } from "@playwright/test";
+import { test } from "@playwright/test";
 import { UserLogin } from "../pages/user-login-page";
 import { testData } from "../data/testData"
 
@@ -21,11 +21,11 @@ const invalidUsers = [
 
 test.describe("Validate successfull logins", () => {
   let userLogin;
-  test.beforeEach(async ({page})=> {
-    userLogin =  new UserLogin(page);
+  test.beforeEach(async ({ page }) => {
+    userLogin = new UserLogin(page);
   });
   validUsers.forEach((user) => {
-    test(`Validate ${user.name} login`, async ({}) => {
+    test(`Validate ${user.name} login`, async ({ }) => {
       await userLogin.fullLogin(user.name, user.password);
     });
   });
@@ -33,11 +33,11 @@ test.describe("Validate successfull logins", () => {
 
 test.describe("Validate unsuccessfull logins", () => {
   let userLogin;
-  test.beforeEach(async ({page})=> {
-    userLogin =  new UserLogin(page);
+  test.beforeEach(async ({ page }) => {
+    userLogin = new UserLogin(page);
   });
   invalidUsers.forEach((user) => {
-    test(`Validate ${user.title} login`, async ({}) => {
+    test(`Validate ${user.title} login`, async ({ }) => {
       await userLogin.fullLogin(user.title, user.password);
     });
   });

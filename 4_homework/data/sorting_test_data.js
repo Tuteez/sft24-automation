@@ -4,7 +4,7 @@ export const sortingOptions = {
         expectedSorting: {
             sortedBy: "name",
             ascending: true,
-        }
+        } 
     },
     nameZToA: {
         dropdownOption: "Name (Z to A)",

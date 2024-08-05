@@ -1,5 +1,4 @@
 import { expect } from "@playwright/test";
-// import { testData } from "../data/testData";
 
 export class ProductPreviewPage {
   constructor(page) {
@@ -20,15 +19,23 @@ export class ProductPreviewPage {
   }
 
   async backToHomePage() {
-    await this.page.locator("#continue-shopping").click();
+    await this.page.locator("#back-to-products").click();
   }
 
   async verifyNumberOfProductsInCart(numberOfProducts) {
-    await expect(this.page.locator(".shopping_cart_link")).toHaveText(numberOfProducts);
+    await expect(this.page.locator("#shopping_cart_container")).toHaveText(numberOfProducts);
   }
 
   async goToCart() {
-    await this.page.locator("#shopping_cart_container");
+    await this.page.locator("#shopping_cart_container").click();
+  }
+
+  async removeItemFromCart() {
+    await this.page.locator("#remove").click();
+  }
+
+  async verifyProductsAddedToCart(numberOfProducts) {
+    await expect(this.page.locator("#shopping_cart_container")).toHaveText(numberOfProducts);
   }
 
 }
