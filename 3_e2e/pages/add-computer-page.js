@@ -9,4 +9,4 @@ export class AddComputerPage {
   async addComputerName(name) {
     await this.page.locator('#name').fill(name);
   }
-
+}

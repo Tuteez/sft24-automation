@@ -4,7 +4,7 @@ import { AddComputerPage } from "../pages/add-computer-page";
 
 // Task - 1: Update existing test to verify computer creation workflow
 
-// test("Create new computer", async ({ page }) => {
+test("Create new computer", async ({ page }) => {
   await page.goto("https://computer-database.gatling.io/computers");
   await expect(page).toHaveTitle("Computers database");
   await page.locator("#add").click();

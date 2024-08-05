@@ -26,4 +26,4 @@ export class ComputersListPage {
       //locator(".well")).toContainText("Nothing to display");
       //locator("#main")).toHaveText("No computer");
 }
-
+}
