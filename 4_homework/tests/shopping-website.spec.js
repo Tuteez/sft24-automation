@@ -12,3 +12,9 @@ test ("Log In to website", async ({ page }) => {
     await logInPage.goto();
     await logInPage.logIn(userData);
 });
+test ("Log In to website - 2", async ({ page }) => {
+    let logInPage = new LogInPage (page);
+    
+    await logInPage.enterWebsite();
+
+});
