@@ -37,7 +37,7 @@ export class ProductsListPage {
   /**
    *
    * @param {Array} list list of elements to check
-   * @param {boolean} asc condition to check. True if should be sorted in ascending order, else false
+   * @param {boolean} asc condition to check True if should be sorted in ascending order, else false
    * @returns True if list sorted as expected, else false
    */
   async isListSorted(list, asc) {
