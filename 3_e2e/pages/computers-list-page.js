@@ -16,6 +16,7 @@ export class ComputersListPage {
   }
   async enterSearchValue(searchValue){
     await this.page.locator("#searchbox").fill(searchValue);
+    await this.page.locator("#searchsubmit").click();
   }
   async clickSearchSubmit(){
     await this.page.locator("#searchsubmit").click();
@@ -24,6 +25,9 @@ export class ComputersListPage {
     await expect (this.page.locator(".well")).toContainText("Nothing to display");
   }
   async verifyItemsInTable(num){
-    await expect(this.page.locator("table.computers.zebra-striped")).toHaveCount(num);
+    await expect(this.page.locator("table tbody tr")).toHaveCount(num);
+  }
+  async checkSuccessMessage(){
+    await expect(page.locator("div.alert-message.warning")).toContainText("Done");
   }
 }
