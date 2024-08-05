@@ -3,6 +3,7 @@ import { loginPage } from "../pages/login-page";
 import { ProductsListPage } from "../pages/products-list-page";
 import { formatProductId } from "../pages/products-list-page";
 import { cartPage } from "../pages/cart-page";
+import { productPreviewPage } from "../pages/product-preview-page";
 
 
 //Runs before each test.
@@ -53,15 +54,34 @@ test.beforeEach(async ({ page }) => {
 
 //second user story tests
 
+    // list of products
+    const Products = {
+        BACKPACK: "Sauce Labs Backpack",
+        BIKE_LIGHT: "Sauce Labs Bike Light",
+        TSHIRT_BLACK: "Sauce Labs Bolt T-Shirt",
+        JACKET: "Sauce Labs Fleece Jacket",
+        ONESIE: "Sauce Labs Onesie",
+        TSHIRT_RED: "Test.allTheThings() T-Shirt (Red)",
+      };
+
     test("1. Each product has an 'add to cart' button", async ({ page }) => {
         let ProductsPage = new ProductsListPage(page);
         await ProductsPage.eachProductHasButton();
     });
 
-    //WIP
-    test("2. product preview has an 'add to cart' and 'remove' buttons", async ({ page }) => {
+    test("2. Products can be added and removed from cart using product preview page", async ({ page }) => {
+        const ProductsPage = new ProductsListPage(page);
+        const productName = Products.TSHIRT_RED // Use product from list above.
+        await ProductsPage.openProductPreview(productName);
+    
+        const PreviewPage = new productPreviewPage(page);
+        await expect(PreviewPage.addToCartButton).toBeVisible();
+        await PreviewPage.addToCart();
+        await PreviewPage.isProductInCart();
+        await PreviewPage.removeFromCart();
+        await PreviewPage.isProductRemovedFromCart();
     });
-    //WIP
+    
 
 //Example products:
 //const productName = "Test.allTheThings() T-Shirt (Red)";
@@ -69,7 +89,7 @@ test.beforeEach(async ({ page }) => {
 
     test("3. Product can be added to cart just once and then removed from it", async ({ page }) => {
         const ProductsPage = new ProductsListPage(page);
-        const productName = "Test.allTheThings() T-Shirt (Red)"; // < Use product name that should be added to cart. Two examples above
+        const productName = Products.TSHIRT_RED // Use product from list above.
         const productId = formatProductId(productName);
 
         // Add product to cart
@@ -98,7 +118,7 @@ test.beforeEach(async ({ page }) => {
 
     test("4. Cart has an item in it and it can be removed", async ({ page }) => {
         let ProductsPage = new ProductsListPage(page);
-        const productName = "Test.allTheThings() T-Shirt (Red)"; // < Use product name that should be added to cart. Two examples above
+        const productName = Products.TSHIRT_RED // Use product from list above.
         const productId = formatProductId(productName);
         let CartPages = new cartPage(page);
 

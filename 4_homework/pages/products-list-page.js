@@ -57,6 +57,15 @@ removeButtonLocator(productName) {
   return this.dataTestSelector(`remove-${formatProductId(productName)}`);
 }
 
+productLinkLocator(productName) {
+  return this.page.locator(`text=${productName}`);
+}
+
+async openProductPreview(productName) {
+  const productLink = this.productLinkLocator(productName);
+  await productLink.click();
+}
+
 async addProductToCart(productName) {
   const addButton = this.addButtonLocator(productName);
   const removeButton = this.removeButtonLocator(productName);
@@ -93,6 +102,8 @@ async isProductInCart() {
 async isProductRemovedFromCart() {
   await expect(this.cartBadge).not.toBeVisible();
 }
+
+
 
   // Below there are functions that can be used to verify if items are sorted as expected
   // It is just an example, any other solution is welcome as well
