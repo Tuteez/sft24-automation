@@ -1,8 +1,15 @@
+import { expect } from "@playwright/test";
+
 export class ProductsListPage {
   constructor(page) {
     this.page = page;
-    this.itemNameDiv = page.locator('div[class="inventory_item_name"]');
+    this.itemNameDiv = page.locator('div.inventory_item_name');
     this.itemPriceDiv = page.locator('div[class="inventory_item_price"]');
+    this.sortSelection = page.locator('[data-test="product-sort-container"]');
+    this.addToCartButton = page.locator('button:has-text("Add to cart")').nth(0);
+    this.removeButton = page.locator('button:has-text("Remove")') ;
+    this.shoppingCartLinkButton = page.locator('[data-test="shopping-cart-link"]') ;
+
   }
 
   // Below there are functions that can be used to verify if items are sorted as expected
@@ -15,9 +22,10 @@ export class ProductsListPage {
    * @returns {boolean} true if list is sorted in correct order
    */
   async isListSortedByName(asc) {
-    let list = await this.itemNameDiv.allTextContents();
 
+    let list = await this.itemNameDiv.allTextContents();
     return await this.isListSorted(list, asc);
+  ;
   }
 
   /**
@@ -30,7 +38,6 @@ export class ProductsListPage {
     list.forEach((element, index) => {
       list[index] = parseFloat(element.slice(1));
     });
-
     return await this.isListSorted(list, asc);
   }
 
@@ -47,5 +54,48 @@ export class ProductsListPage {
       }
       return num >= arr[idx + 1] || idx === arr.length - 1 ? true : false;
     });
+
   }
+
+
+  //adds first product from the Product List
+  async addProductToCartFromProductList(){
+    await this.addToCartButton.click();
+  }
+
+  //removes  product  from shipping cart by clicking Remove Button on product list page
+  async removeProductFromCartFromProductList(){
+    await this.removeButton.click();
+    await this.shoppingCartLinkButton.click();
+    await expect(this.removeButton).not.toBeVisible();
+
+
+  }
+
+
+  // sorts and verifies the list based on given parameters
+ /**
+  * @param {String} sortBy name or price
+  * @param {boolean} asc condition to check. True if should be sorted in ascending order, else false 
+  * */ 
+  async sortBy(sortBy, asc){
+
+      if(sortBy === 'Name'&& asc ===true){
+      await expect( await this.isListSortedByName(asc)).toBe(true);
+    } else if (sortBy === 'Name' && asc !== true) {
+     await this.sortSelection.selectOption('Name (Z to A)');
+      await expect(  await this.isListSortedByName(asc)).toBe(true);
+    } else if(sortBy === 'Price' && asc ===true ){
+      await this.sortSelection.selectOption('Price (low to high)');
+      await expect(  await this.isListSortedByPrice(asc)).toBe(true);
+    } else if(sortBy === 'Price' && asc !== true){
+      await this.sortSelection.selectOption('Price (high to low)');
+      await expect(  await this.isListSortedByPrice(asc)).toBe(true);
+    }
+  
+    
+  }
+
+
+
 }
