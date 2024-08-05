@@ -9,13 +9,8 @@ export class ShoppingCartPage {
   }
 
   
-  //checks if there is a product in the shopping cart
-  async isButtonRemovePresent(){
-
-    await expect(this.removeButton).toBeVisible();
-  }
    
-// removed product from the shopping cart by clicking Remove next to the product
+// removes product from the shopping cart by clicking Remove next to the product
   async clickRemoveProduct(){
     await this.shoppingCartLinkButton.click();
     await this.removeButton.click();

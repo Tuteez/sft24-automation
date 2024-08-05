@@ -26,7 +26,6 @@ test.describe("Verify remove from cart feature with login (beforeEach)", async (
 
   test("Remove product from product preview page", async ({ page }) => {
 
-
     let productPreviewPage = new ProductPreviewPage(page);
     let shoppingCartPage = new ShoppingCartPage(page);
 
@@ -37,7 +36,6 @@ test.describe("Verify remove from cart feature with login (beforeEach)", async (
 
   test("Remove product from product List", async ({ page }) => {
 
-
     let productsListPage = new ProductsListPage(page);
     let shoppingCartPage = new ShoppingCartPage(page);
 
@@ -45,6 +43,5 @@ test.describe("Verify remove from cart feature with login (beforeEach)", async (
     await productsListPage.removeProductFromCartFromProductList();
      await shoppingCartPage.verifyProductRemoved();
   })
-
 
 });

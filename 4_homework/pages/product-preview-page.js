@@ -7,8 +7,6 @@ export class ProductPreviewPage {
     this.addToCartButton = page.locator('button:has-text("Add to cart")');
     this.removeButton = page.locator('button:has-text("Remove")');
     this.shoppingCartLinkButton = page.locator('[data-test="shopping-cart-link"]') ;
-
-  
   }
 
   // adds product to cart from the product preview page
@@ -20,16 +18,11 @@ export class ProductPreviewPage {
 
   }
 
-
+//remove product from shipping cart by clicking Remove on product preview page
   async removeProductFromPreviewPage(){
 
     await this.removeButton.click();
     await expect(this.page.locator('button:has-text("Remove")')).not.toBeVisible();
-
-
-
   }
-
- 
 
 }

@@ -63,7 +63,7 @@ export class ProductsListPage {
     await this.addToCartButton.click();
   }
 
-  //removes  product by clicking Remove Button on product list page
+  //removes  product  from shipping cart by clicking Remove Button on product list page
   async removeProductFromCartFromProductList(){
     await this.removeButton.click();
     await this.shoppingCartLinkButton.click();
