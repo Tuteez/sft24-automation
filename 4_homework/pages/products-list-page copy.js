@@ -6,10 +6,8 @@ export class ProductsListPage {
     this.itemNameDiv = page.locator('div.inventory_item_name');
     this.itemPriceDiv = page.locator('div[class="inventory_item_price"]');
     this.sortSelection = page.locator('[data-test="product-sort-container"]');
-    this.addToCartButton = page.locator('button:has-text("Add to cart")').nth(0);
-    this.removeButton = page.locator('button:has-text("Remove")') ;
-    this.shoppingCartLinkButton = page.locator('[data-test="shopping-cart-link"]') ;
-
+    this.addToCartButton = page.locator(':nth-match(:text("Add to cart"), 1)');
+    this.removeButton = page.locator(':nth-match(:text("Remove"), 1)') ;
   }
 
   // Below there are functions that can be used to verify if items are sorted as expected
@@ -24,6 +22,7 @@ export class ProductsListPage {
   async isListSortedByName(asc) {
 
     let list = await this.itemNameDiv.allTextContents();
+    console.log(list);
     return await this.isListSorted(list, asc);
   ;
   }
@@ -57,19 +56,42 @@ export class ProductsListPage {
 
   }
 
+ //verify default sort is NAME ASC
+ async verifyDefaultSort(){
+  await expect( await this.isListSortedByName(true)).toBe(true);
+}
+
+
+  //sort product list by name in DESC order and verify
+  async sortByNameDesc(){
+    await this.sortSelection.selectOption('Name (Z to A)');
+    console.log('test');
+    await expect( await this.isListSortedByName(false)).toBe(true);
+  }
+
+  //sort product list by price in ASC order and verify
+  async sortByPriceAsc(){
+    await this.sortSelection.selectOption('Price (low to high)');
+    await expect( await this.isListSortedByPrice(true)).toBe(true);
+
+  }
+
+  //sort product list by price in DESC order and verify
+  async sortByPriceDesc(){
+    await this.sortSelection.selectOption('Price (high to low)');
+    await expect(await this.isListSortedByPrice(false)).toBe(true);
+  }
 
   //adds first product from the Product List
   async addProductToCartFromProductList(){
     await this.addToCartButton.click();
+    //await this.page.locator(':nth-match(:text("Add to cart"), 1)').click();
+  
   }
 
-  //removes  product by clicking Remove Button on product list page
+  //removes first product by clicking Remove Button on Product List page
   async removeProductFromCartFromProductList(){
     await this.removeButton.click();
-    await this.shoppingCartLinkButton.click();
-    await expect(this.removeButton).not.toBeVisible();
-
-
   }
 
 
@@ -84,13 +106,13 @@ export class ProductsListPage {
       await expect( await this.isListSortedByName(asc)).toBe(true);
     } else if (sortBy === 'Name' && asc !== true) {
      await this.sortSelection.selectOption('Name (Z to A)');
-      await expect(  await this.isListSortedByName(asc)).toBe(true);
+      await expect( await this.isListSortedByName(asc)).toBe(true);
     } else if(sortBy === 'Price' && asc ===true ){
       await this.sortSelection.selectOption('Price (low to high)');
-      await expect(  await this.isListSortedByPrice(asc)).toBe(true);
+      await expect( await this.isListSortedByPrice(asc)).toBe(true);
     } else if(sortBy === 'Price' && asc !== true){
       await this.sortSelection.selectOption('Price (high to low)');
-      await expect(  await this.isListSortedByPrice(asc)).toBe(true);
+      await expect( await this.isListSortedByPrice(asc)).toBe(true);
     }
   
     
