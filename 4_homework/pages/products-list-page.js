@@ -3,7 +3,6 @@ export class ProductsListPage {
     this.page = page;
     this.itemNameDiv = page.locator('div[class="inventory_item_name"]');
     this.itemPriceDiv = page.locator('div[class="inventory_item_price"]');
-    this.listItemDiv = page.locator('div[class="inventory_item_description"]');
   }
 
   // Below there are functions that can be used to verify if items are sorted as expected
@@ -48,36 +47,5 @@ export class ProductsListPage {
       }
       return num >= arr[idx + 1] || idx === arr.length - 1 ? true : false;
     });
-  }
-
-  /**
-   * Goes to product list page
-   */
-  async goto() {
-    await this.page.goto("https://www.saucedemo.com/inventory.html");
-  }
-
-  /**
-   * Selects provided sorting option
-   */
-    async selectSortingOption(sortingOption) {
-    await this.page.locator(".product_sort_container").selectOption(sortingOption);
-  }
-
-  /**
-   * Adds an item to cart
-   */
-  async addToCart()
-  {
-    //await this.page.querySelector(".btn_inventory").click();
-    await this.page.locator(".btn_inventory").first().click();
-  }
-
-  /**
-   * Removes an item from cart
-   */
-  async removeFromCart()
-  {
-    await this.page.locator(".btn_inventory").first().click();
   }
 }

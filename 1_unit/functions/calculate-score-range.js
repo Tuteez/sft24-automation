@@ -8,11 +8,11 @@
 function calculateScoreRange(a, b, c) {
   let range = 3;
 
-  if (a + b + c < 51) {
+  if (a + b + c <= 51) {
     range = 2;
   }
 
-  if (a + b + c < 18) {
+  if (a + b + c <= 18) {
     range = 1;
   }
 
