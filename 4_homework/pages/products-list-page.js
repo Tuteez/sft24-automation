@@ -48,4 +48,32 @@ export class ProductsListPage {
       return num >= arr[idx + 1] || idx === arr.length - 1 ? true : false;
     });
   }
+  async selectProductSortContainer(container) {
+    await this.page.locator(".product_sort_container").selectOption(container);
+}
+
+  async addToCart(product) {
+    await this.page.locator("button[data-test*='" + product + "']").click();
+
+  }
+
+  async isAddedToCart() {
+    return await this.page.locator(".shopping_cart_badge").isEnabled();
+
+  }
+  async navigateToCart() {
+    await this.page.locator(".shopping_cart_link").click();
+  }
+
+  get getTextFromBackpackButton() {
+    return this.page.locator("button[data-test*='backpack']").textContent();
+  }
+
+  get getCartItemsAmount() {
+    return this.page.locator(".shopping_cart_badge").textContent();
+  }
+
+  async removeItem(product) {
+    await this.page.locator("button[data-test*='" + product + "']").click();
+  }
 }

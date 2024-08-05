@@ -12,4 +12,15 @@ describe("calculateScoreRange tests", () => {
   test("5, 25, 25 numbers should get range 3", () => {
     expect(calculateScoreRange(5, 25, 25)).toBe(3);
   });
+
+  test("48, 2, 1 numbers should get range 3", () => {
+    expect(calculateScoreRange(48, 2, 1)).toBe(3);
+  });
+  
+  test("48, 2, 0 numbers should get range 2", () => {
+    expect(calculateScoreRange(48, 2, 0)).toBe(2);
+  });
+  test("10, 5, 3 numbers should get range 2", () => {
+    expect(calculateScoreRange(10, 5, 3)).toBe(2);
+  });
 });
