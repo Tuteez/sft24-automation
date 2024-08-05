@@ -71,7 +71,7 @@ test.beforeEach(async ({ page }) => {
 
     test("2. Products can be added and removed from cart using product preview page", async ({ page }) => {
         const ProductsPage = new ProductsListPage(page);
-        const productName = Products.TSHIRT_RED // Use product from list above.
+        const productName = Products.TSHIRT_RED // Use product from list.
         await ProductsPage.openProductPreview(productName);
     
         const PreviewPage = new productPreviewPage(page);
@@ -81,15 +81,10 @@ test.beforeEach(async ({ page }) => {
         await PreviewPage.removeFromCart();
         await PreviewPage.isProductRemovedFromCart();
     });
-    
-
-//Example products:
-//const productName = "Test.allTheThings() T-Shirt (Red)";
-//const productName = "Sauce Labs Backpack";
 
     test("3. Product can be added to cart just once and then removed from it", async ({ page }) => {
         const ProductsPage = new ProductsListPage(page);
-        const productName = Products.TSHIRT_RED // Use product from list above.
+        const productName = Products.TSHIRT_RED // Use product from list.
         const productId = formatProductId(productName);
 
         // Add product to cart
@@ -118,7 +113,7 @@ test.beforeEach(async ({ page }) => {
 
     test("4. Cart has an item in it and it can be removed", async ({ page }) => {
         let ProductsPage = new ProductsListPage(page);
-        const productName = Products.TSHIRT_RED // Use product from list above.
+        const productName = Products.TSHIRT_RED // Use product from list.
         const productId = formatProductId(productName);
         let CartPages = new cartPage(page);
 
