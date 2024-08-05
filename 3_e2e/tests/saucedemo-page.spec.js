@@ -7,7 +7,7 @@ import { SaucedemoProductsAddingToCartPreviewPage } from "../pages/saucedemo-pro
 import { SaucedemoProductsRemoveFromCartPage } from "../pages/saucedemo-products-remove-from-cart";
 import { SaucedemoProductsRemoveoOnItemsCartPage } from "../pages/saucedemo-products-remove-butt-on-each-Cart-page";
 
-// Task - 0.1.1 from PPT: Write down your tests by using ‘standard_user’ credentials. 
+// Task - 0.1.1 from PPT: Write down your tests by using ‘standard_user’ credentials. T
 test("Login with 'standard_user' credentials", async ({page}) => {
   let saucedemoLoginPage = new SaucedemoLoginPage(page)
 
