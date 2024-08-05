@@ -1,9 +1,98 @@
+import { expect } from "@playwright/test";
+
+//WIP
+
+export function formatProductId(productName) {
+  // Convert productName to lower case
+  // Replace spaces with hyphens
+  // Keep parentheses and dots, replace other special characters with nothing
+  return productName
+    .toLowerCase()
+    .replace(/\s+/g, '-')               // Replace spaces with hyphens
+    .replace(/[^a-z0-9\-\.\(\)]+/g, ''); // Keep only alphanumeric, hyphens, dots, and parentheses
+}
+
+//WIP
+
 export class ProductsListPage {
   constructor(page) {
     this.page = page;
     this.itemNameDiv = page.locator('div[class="inventory_item_name"]');
     this.itemPriceDiv = page.locator('div[class="inventory_item_price"]');
+    this.sortContainer = page.locator('.product_sort_container');
+    this.cartBadge = page.locator('.shopping_cart_badge');
+  };
+  
+  async getSortOptions() {
+    return this.sortContainer.evaluate(select => {
+        return Array.from(select.options).map(option => ({
+            value: option.value,
+            text: option.text
+        }));
+    });
+  };
+
+  async selectSortingOption(value) {
+    await this.page.locator(".product_sort_container").selectOption(value)
+  };
+
+ async eachProductHasButton() {
+  let products = this.page.locator(".inventory_item_description");
+  let buttons = this.page.locator(".btn.btn_primary.btn_small.btn_inventory");
+  expect(products.length).toBe(buttons.length);
+ }
+
+// DO NOT EDIT UNDER ANY CIRCUMSTANCE. SOMEHOW IT WORKS BUT IDK HOW XD
+// Helper method to create data-test selectors
+ dataTestSelector(testValue) {
+  return this.page.locator(`[data-test="${testValue}"]`);
+}
+
+// Return locators for buttons based on data-test attributes
+addButtonLocator(productName) {
+  return this.dataTestSelector(`add-to-cart-${formatProductId(productName)}`);
+}
+
+removeButtonLocator(productName) {
+  return this.dataTestSelector(`remove-${formatProductId(productName)}`);
+}
+
+async addProductToCart(productName) {
+  const addButton = this.addButtonLocator(productName);
+  const removeButton = this.removeButtonLocator(productName);
+
+  const isAddButtonVisible = await addButton.isVisible();
+  // Check if the Add button is visible
+  if (isAddButtonVisible) {
+    await addButton.click();
+    await expect(removeButton).toBeVisible({ timeout: 2500 });
+  } else {
+    await expect(removeButton).toHaveText('Remove');
   }
+}
+
+async removeProductFromCart(productName) {
+  const removeButton = this.removeButtonLocator(productName);
+  const addButton = this.addButtonLocator(productName);
+
+  const isRemoveButtonVisible = await removeButton.isVisible();
+
+  if (isRemoveButtonVisible) {
+    await removeButton.click();
+    await expect(addButton).toBeVisible({ timeout: 2500 });
+  } else {
+    await expect(addButton).toHaveText('Add to cart');
+  }
+}
+
+async isProductInCart() {
+  await expect(this.cartBadge).toBeVisible({ timeout: 2500 });
+  await expect(this.cartBadge).toHaveText('1');
+}
+
+async isProductRemovedFromCart() {
+  await expect(this.cartBadge).not.toBeVisible();
+}
 
   // Below there are functions that can be used to verify if items are sorted as expected
   // It is just an example, any other solution is welcome as well

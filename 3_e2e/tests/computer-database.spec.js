@@ -16,7 +16,7 @@ test("Create new computer", async ({ page }) => {
   await page.locator("//input[@value='Create this computer']").click()
 
   await expect(page.locator(".alert-message.warning")).toContainText("Done");
-
+  
 });
 
 //Task - 2: Update existing test to verify computer creation workflow with POM
