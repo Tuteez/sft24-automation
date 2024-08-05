@@ -28,11 +28,22 @@ test.describe("SFT-2 Ability to add swag to cart.", () => {
     test(`Check Add to chart button from Products list – to each product card/item. for user: ${userName}`, async ({
       page,
     }) => {
-      // Click the random items' add to chart button
-      let addToCartButton = await productsListPage.getItemByIndex(0);
-      addToCartButton.click();
-      expect(await productsListPage.cartBadge.textContent()).toBe("1");
-      expect(await addToCartButton.textContent()).toBe("Remove");
+      const addToCartButtons = await productsListPage.addToCartButtton.all();
+      expect(addToCartButtons.length).toBe(6);
+
+      for (const _ in addToCartButtons) {
+        let addToCartButton = page
+          .getByRole("button", {
+            name: "Add to cart",
+          })
+          .first();
+
+        await addToCartButton.click();
+      }
+
+      expect(await productsListPage.cartBadge.textContent()).toBe(
+        `${addToCartButtons.length}`
+      );
     });
   });
 
