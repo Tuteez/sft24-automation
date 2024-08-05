@@ -14,4 +14,8 @@ export class ComputersListPage {
     await this.page.locator("#add").click();
     await expect(this.page.locator("#main h1")).toHaveText("Add a computer");
   }
+
+  async comfirmMessage(){
+    await expect(this.page).toHaveTitle("Computers database");
+  }
 }

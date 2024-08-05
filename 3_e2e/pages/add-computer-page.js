@@ -1,4 +1,4 @@
-import { ComputerData } from "../test-data/computer-data";
+
 
 export class AddComputerPage {
   constructor(page) {
@@ -16,7 +16,7 @@ export class AddComputerPage {
   async fillDiscontinued(date) {
     await this.page.locator("#discontinued").fill(date);
   }
-//
+  
   async selectCompany(company) {
     await this.page.locator("#company").selectOption(company);
   }
