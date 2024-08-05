@@ -1,37 +1,113 @@
+import test, { expect } from "@playwright/test";
+import { testData } from "../data/testData";
+// import { testData } from "../data/testData";
+
 export class ProductsListPage {
   constructor(page) {
     this.page = page;
-    this.itemNameDiv = page.locator('div[class="inventory_item_name"]');
+    this.itemNameDiv = page.locator('div[class="inventory_item_label"]');
     this.itemPriceDiv = page.locator('div[class="inventory_item_price"]');
   }
 
-  // Below there are functions that can be used to verify if items are sorted as expected
-  // It is just an example, any other solution is welcome as well
-  // (you can use what is provided or write your own)
+  async findRightLeftLocation(object) {
 
-  /**
-   * Checks if products are sorted properly by name
-   * @param {boolean} asc true if list should be sorted in ascending order, else false
-   * @returns {boolean} true if list is sorted in correct order
-   */
-  async isListSortedByName(asc) {
-    let list = await this.itemNameDiv.allTextContents();
+    let location = await this.page.locator(object).boundingBox();
+    console.log(location);
 
-    return await this.isListSorted(list, asc);
+    const screen = this.page.locator(object).page().viewportSize();
+    console.log(screen);
+    var positionVertical = "";
+    var positionHorizontal = "";
+
+    if (location.y <= screen.height / 2) {
+      positionVertical = "top";
+    } else {
+      positionVertical = "bottom";
+    }
+
+    if (location.x >= screen.width / 2) {
+      positionHorizontal = "right";
+    } else {
+      positionHorizontal = "left";
+    }
+
+    if (positionVertical !== "top" && positionHorizontal !== "right") {
+      throw new Error(testData.errorMessages.incorrectButtonLocation);
+    }
+
+    console.log('positionVertical =' + positionVertical + ', positionHorizontal=' + positionHorizontal);
+
   }
 
-  /**
-   * Checks if products are sorted properly by price
-   * @param {boolean} asc true if list should be sorted in ascending order, else false
-   * @returns {boolean} true if list is sorted in correct order
-   */
-  async isListSortedByPrice(asc) {
-    let list = await this.itemPriceDiv.allTextContents();
-    list.forEach((element, index) => {
-      list[index] = parseFloat(element.slice(1));
-    });
 
-    return await this.isListSorted(list, asc);
+  async findInDropdownList(filterBy) {
+    console.log(filterBy);
+
+    const filterOptions = await this.page.locator(testData.locators.selectOption).all();
+    console.log(filterOptions);
+    await this.page.locator(testData.locators.selectContainer).click();
+
+    for (const filterOption of filterOptions) {
+      var optionName = await filterOption.textContent()
+      console.log(optionName);
+      await filterOption.click();
+
+      var matchFound = false;
+      if (optionName === filterBy) {
+        matchFound = true;
+        break;
+      }
+
+    }
+    await expect(this.page.locator(testData.locators.productSorting)).toContainText(filterBy);
+  }
+
+
+  async selectInDropdownList(filterBy) {
+
+    if (filterBy === "") {
+      filterBy = testData.defaultSortingOption;
+    }
+    await this.page.locator(testData.locators.productSorting).selectOption(filterBy);
+
+    // let sortCheck = false;
+
+    // if (filterBy === testData.sortingOptions.nameAtoZ) {
+    //   sortCheck = await this.isListSortedByName(true);
+
+    // } else if (filterBy === testData.optionText.nameZtoA) {
+    //   sortCheck = await this.isListSortedByName(false);
+
+    // } else if (filterBy === testData.optionText.priceLowToHigh) {
+    //   sortCheck = await this.isListSortedByPrice(true);
+
+    // } else if (filterBy === testData.optionText.priceHighToLow) {
+    //   sortCheck = await this.isListSortedByPrice(false);
+    // }
+
+    // if (sortCheck !== true) {
+    //   throw new Error('List is order doesn\'t work');
+    // }
+  }
+
+  async getListValues(type) {
+    if (type === "name") {
+      return await this.itemNameDiv.allTextContents();
+    }
+    if (type === "price") {
+      let list = await this.itemPriceDiv.allTextContents();
+      return list.map((element) => parseFloat(element.slice(1)));
+    }
+
+    throw new Error('List type not supported');
+  }
+
+  async verifyListSorting(name, asc) {
+    let list = await this.getListValues(name)
+
+    if (!await this.isListSorted(list, asc)) {
+      throw new Error('List is order doesn\'t work');
+    }
   }
 
   /**
@@ -48,4 +124,30 @@ export class ProductsListPage {
       return num >= arr[idx + 1] || idx === arr.length - 1 ? true : false;
     });
   }
+
+  async buttonExists(buttonText) {
+    await expect(this.page.getByText(buttonText).first()).toBeVisible();
+  }
+
+  async pressAddToCartButton(productName) {
+    const item = this.page.locator(`.inventory_item:has(.inventory_item_name:text-is("${productName}"))`);
+    await item.locator('button[data-test^="add-to-cart"]').click();
+  }
+
+  async verifyProductsAddedToCart(numberOfProducts) {
+    await expect(this.page.locator(".shopping_cart_link")).toHaveText(numberOfProducts);
+  }
+
+  async goToCart() {
+    await this.page.locator(".shopping_cart_link").click();
+  }
+
+  async pressRemoveButton(productName) {
+    const item = this.page.locator(`.inventory_item:has(.inventory_item_name:text-is("${productName}"))`);
+    await item.locator('button[id*="remove"]').click();
+  }
+
+
+
+
 }
