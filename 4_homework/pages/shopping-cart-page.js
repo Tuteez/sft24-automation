@@ -20,11 +20,6 @@ export class ShoppingCartPage {
     return await this.page.locator("#remove-sauce-labs-backpack");
   }
 
-  //return products titles
-  async getProductsTitles() {
-    return await this.page.locator(".inventory_item_name").all();
-  }
-
   //check if cart icon have badge after one item is added
   async getCartIconBadge() {
     return await this.page.locator(".shopping_cart_badge");

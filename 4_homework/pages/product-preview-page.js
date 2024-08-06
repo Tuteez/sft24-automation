@@ -15,7 +15,7 @@ export class ProductPreviewPage {
   }
 
   //add item to cart in product preview page
-  async addItemToCartProductPreviewPage() {
+  async addItemToCart() {
     await this.page.locator("#add-to-cart").click();
   }
 
