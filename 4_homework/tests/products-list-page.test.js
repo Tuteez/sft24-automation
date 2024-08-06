@@ -29,30 +29,30 @@ validUsers.forEach((user) => {
     });
 
     test.describe(`Product sorting functionality`, () => {
-      test("Default sorting by Name (A to Z)", async () => {
+      test("Default sorting should be chosen as `by Name (A to Z)` after logging in", async () => {
         await productListPage.validateByProductNameAtoZ();
       });
 
-      test("Sorting by Name (Z to A)", async () => {
+      test("After choosing sorting `by Name (Z to A)`, the sorting option should change to our chosen value and products should be sorted accordingly", async () => {
         await productListPage.selectSortOption(testData.optionText.nameZtoA);
         await productListPage.validateByProductNameZtoA();
       });
 
-      test("Sorting by Price (low to high)", async () => {
+      test("After choosing sorting `by Price (low to high)`, the sorting option should change to our chosen value and products should be sorted accordingly", async () => {
         await productListPage.selectSortOption(
           testData.optionText.priceLowToHigh
         );
         await productListPage.validateByPriceLowToHigh();
       });
 
-      test("Sorting by Price (high to low)", async () => {
+      test("After choosing sorting `by Price (hight to low)`, the sorting option should change to our chosen value and products should be sorted accordingly", async () => {
         await productListPage.selectSortOption(
           testData.optionText.priceHighToLow
         );
         await productListPage.validateByPriceHighToLow();
       });
 
-      test("Validate dropdown options", async () => {
+      test("Validate dropdown options are from A-Z, Z-A, Low-to-High and High-to-low", async () => {
         await productListPage.validateDropdownOptions(optionText);
       });
     });
@@ -60,11 +60,11 @@ validUsers.forEach((user) => {
     test.describe(`Product list cart functionality`, () => {
       test.describe(`main page functionality`, () => {
         test.describe(`Add to cart`, () => {
-          test("Add 1 product to cart from the main page", async () => {
+          test("Add 1 product to cart from the main page, cart should display that one product has been added to the cart", async () => {
             await productListPage.addProductToCart();
           });
 
-          test("Add multiple products to cart from the main page", async () => {
+          test("Add multiple products to cart from the main page, cart should display that three products have been added to the cart", async () => {
             await productListPage.addProductToCart();
             await productListPage.addProductToCart();
             await productListPage.addProductToCart();
@@ -88,12 +88,12 @@ validUsers.forEach((user) => {
           });
         });
         test.describe(`Remove from cart`, () => {
-          test("Remove 1 product from cart in the main page", async () => {
+          test("After adding and removing a product in the main page, cart should display 0 products in the cart", async () => {
             await productListPage.addProductToCart();
             await productListPage.removeProductFromCart();
           });
 
-          test("Remove multiple products from cart in the main page", async () => {
+          test("After adding and removing 2 products in the main page, cart should display 0 products in the cart", async () => {
             await productListPage.addProductToCart();
             await productListPage.addProductToCart();
             await productListPage.removeProductFromCart();
@@ -102,13 +102,13 @@ validUsers.forEach((user) => {
         });
 
         test.describe(`Add and remove `, () => {
-          test("Add a product, delete it and add it again in the main page", async () => {
+          test("After adding , deleting a product, the product should be able to be added again and cart should dispaly 1 product in the cart", async () => {
             await productListPage.addProductToCart();
             await productListPage.removeProductFromCart();
             await productListPage.addProductToCart();
           });
 
-          test("Add a product in the main page and delete in the cart", async () => {
+          test("After adding a product in the main page, product should be able to be removed in the cart page", async () => {
             await productListPage.addProductToCart();
             await productListPage.goToCart();
             await productListPage.removeProductFromCart();
@@ -123,7 +123,7 @@ validUsers.forEach((user) => {
             await productListPage.validateRemoveButtons(3);
           });
 
-          test("Add multiple products in the main page and delete in the cart", async () => {
+          test("Add 3 products in the main page and delete 2 products in the cart, the cart should have 1 product remaining", async () => {
             await productListPage.addProductToCart();
             await productListPage.addProductToCart();
             await productListPage.addProductToCart();
@@ -147,32 +147,32 @@ validUsers.forEach((user) => {
       });
 
       test.describe(`preview page functionality`, () => {
-        test("Add to cart", async () => {
+        test("Product should be able to be added in preview page and cart should display 1 product", async () => {
           await productListPage.openPreviewPage();
           await productListPage.addProductToCart();
         });
 
-        test("Remove from cart", async () => {
-          await productListPage.openPreviewPage();
-          await productListPage.addProductToCart();
-          await productListPage.removeProductFromCart();
-        });
-
-        test("Add a product, delete it and add it again in the preview mode", async () => {
+        test("Product should be able to be added in preview page and removed, the cart should display 0 products", async () => {
           await productListPage.openPreviewPage();
           await productListPage.addProductToCart();
           await productListPage.removeProductFromCart();
+        });
+
+        test("After adding, removing the product, we should be able to add the product again, the cart should display 1 product", async () => {
+          await productListPage.openPreviewPage();
+          await productListPage.addProductToCart();
+          await productListPage.removeProductFromCart();
           await productListPage.addProductToCart();
         });
 
-        test("Add a product in the preview mode and delete in the cart", async () => {
+        test("The product should be able to be added to the cart and cart page should display 1 product in cart", async () => {
           await productListPage.openPreviewPage();
           await productListPage.addProductToCart();
           await productListPage.goToCart();
           await productListPage.removeProductFromCart();
         });
 
-        test("Add 2 products in preview mode and validate that the main page has 2 remove buttons", async () => {
+        test("Add 2 products in preview mode and validate that the main page should have 2 remove buttons", async () => {
           await productListPage.openPreviewPage();
           await productListPage.addProductToCart();
           await productListPage.backToProducts();
@@ -197,13 +197,13 @@ validUsers.forEach((user) => {
       });
 
       test.describe(`Mix main page and preview page functionality`, () => {
-        test("Add one product from the main page and then one from the preview mode", async () => {
+        test("We should be able to add 1 product in the main page first and 1 product from preview page later, cart should display 2 products in the cart", async () => {
           await productListPage.addProductToCart(0);
           await productListPage.openPreviewPage(1);
           await productListPage.addProductToCart();
         });
 
-        test("Add a product in preview mode and then add another product in the main page", async () => {
+        test("We should be able to add 1 product in the preview page first and 1 product from the main page later, cart should display 2 products in the cart", async () => {
           await productListPage.openPreviewPage();
           await productListPage.addProductToCart();
           await productListPage.backToProducts();

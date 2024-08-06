@@ -3,6 +3,7 @@ import { expect } from "@playwright/test";
 export class LoginPage {
     constructor(page) {
       this.page = page;
+      this.errorMessage = page.locator("h3");
     }
   
     async goToLoginPage() {
@@ -17,7 +18,7 @@ export class LoginPage {
       }
     
       async validateLoginErrorMessage(errorMessage) {
-        await expect(this.page.locator("h3")).toHaveText(errorMessage);
+        await expect(this.errorMessage).toHaveText(errorMessage)
       }
       
     };
