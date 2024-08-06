@@ -12,7 +12,7 @@ test.beforeEach(async ({ page }) => {
     let openLoginPage = new loginPage(page);
     
     await openLoginPage.goto();
-    await openLoginPage.loginChosenUser("MAIN") // see user.config.js for possible roles
+    await openLoginPage.loginChosenUser("ERROR") // see user.config.js for possible roles
   });
     
 //first user story tests
@@ -73,7 +73,7 @@ test.describe("3. Product Sorting Tests", () => {
 
     test("1. Each product has an 'add to cart' button", async ({ page }) => {
         let ProductsPage = new ProductsListPage(page);
-        await ProductsPage.eachProductHasButton();
+        await ProductsPage.checkIfEachProductHasButton();
     });
 
 test.describe('2. Product Tests - for adding and removing items from cart.', () => {

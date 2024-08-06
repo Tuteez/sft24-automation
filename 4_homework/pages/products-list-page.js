@@ -14,8 +14,8 @@ export class ProductsListPage {
     this.itemPriceDiv = page.locator('div[class="inventory_item_price"]');
     this.sortContainer = page.locator('.product_sort_container');
     this.cartBadge = page.locator('.shopping_cart_badge');
-    this.productButton = page.locator(".btn_inventory");
-    this.productDescription = page.locator(".inventory_item_description");
+    this.allProductButtons = page.locator(".btn_inventory");
+    this.allProductDescriptions = page.locator(".inventory_item_description");
   };
   
   async getSortOptions() {
@@ -31,8 +31,8 @@ export class ProductsListPage {
     await this.sortContainer.selectOption(value)
   };
 
- async eachProductHasButton() {
-  expect(this.productDescription.length).toBe(this.productButton.length);
+ async checkIfEachProductHasButton() { // count all product descriptions and all product buttons and see if the same amount
+  expect(this.allProductDescriptions.length).toBe(this.allProductButtons.length); 
  };
 
 // DO NOT EDIT UNDER ANY CIRCUMSTANCE - START
