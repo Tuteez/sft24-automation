@@ -14,6 +14,8 @@ export class ProductsListPage {
     this.itemPriceDiv = page.locator('div[class="inventory_item_price"]');
     this.sortContainer = page.locator('.product_sort_container');
     this.cartBadge = page.locator('.shopping_cart_badge');
+    this.productButton = page.locator(".btn_inventory");
+    this.productDescription = page.locator(".inventory_item_description");
   };
   
   async getSortOptions() {
@@ -26,16 +28,14 @@ export class ProductsListPage {
   };
 
   async selectSortingOption(value) {
-    await this.page.locator(".product_sort_container").selectOption(value)
+    await this.sortContainer.selectOption(value)
   };
 
  async eachProductHasButton() {
-  let products = this.page.locator(".inventory_item_description");
-  let buttons = this.page.locator(".btn.btn_primary.btn_small.btn_inventory");
-  expect(products.length).toBe(buttons.length);
+  expect(this.productDescription.length).toBe(this.productButton.length);
  };
 
-// DO NOT EDIT UNDER ANY CIRCUMSTANCE. SOMEHOW IT WORKS BUT IDK HOW xD
+// DO NOT EDIT UNDER ANY CIRCUMSTANCE - START
 // Helper method to create data-test selectors
  dataTestSelector(testValue) {
   return this.page.locator(`[data-test="${testValue}"]`);
@@ -50,8 +50,9 @@ removeButtonLocator(productName) {
 };
 
 productLinkLocator(productName) {
-  return this.page.locator(`text=${productName}`);
+  return this.page.locator(`div.inventory_item_name`, { hasText: productName });
 };
+
 //DO NOT EDIT UNDER ANY CIRCUMSTANCE - END
 
 async openProductPreview(productName) {
@@ -64,7 +65,7 @@ async addProductToCart(productName) {
   const removeButton = this.removeButtonLocator(productName);
 
   const isAddButtonVisible = await addButton.isVisible();
-  // Check if the Add button is visible
+
   if (isAddButtonVisible) {
     await addButton.click();
     await expect(removeButton).toBeVisible({ timeout: 2500 });
@@ -95,6 +96,7 @@ async isProductInCart() {
 async isProductRemovedFromCart() {
   await expect(this.cartBadge).not.toBeVisible();
 };
+
 
 
 
