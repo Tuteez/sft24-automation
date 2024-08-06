@@ -1,4 +1,4 @@
-import { test, expect, ba } from "@playwright/test";
+import { test, expect } from "@playwright/test";
 import { LoginPage } from "../pages/login-page";
 import { ProductsListPage } from "../pages/products-list-page";
 import { ProductDetailsPage } from "../pages/product-details-page";
@@ -28,65 +28,52 @@ test.describe("SFT-2 Ability to add swag to cart.", () => {
     test(`Check Add to chart button from Products list – to each product card/item. for user: ${userName}`, async ({
       page,
     }) => {
-      const addToCartButtons = await productsListPage.addToCartButtton.all();
-      expect(addToCartButtons.length).toBe(6);
+      const actionButtonButtons =
+        await productsListPage.actionButtonButtton.all();
+      expect(actionButtonButtons.length).toBe(6);
 
-      for (const _ in addToCartButtons) {
-        let addToCartButton = page
+      for (const _ in actionButtonButtons) {
+        let actionButtonButton = page
           .getByRole("button", {
             name: "Add to cart",
           })
           .first();
 
-        await addToCartButton.click();
+        await actionButtonButton.click();
       }
 
       expect(await productsListPage.cartBadge.textContent()).toBe(
-        `${addToCartButtons.length}`
+        `${actionButtonButtons.length}`
       );
     });
   });
 
-  test("check if item can be added from product details page", async ({
+  test("Check if item can be added from product details page and remove button is displayed everywhere once item is added in the cart", async ({
     page,
   }) => {
-    productDetailsPage = new ProductDetailsPage(page);
     //click first items title
     await productsListPage.itemName.first().click();
-    await productDetailsPage.addToCart.click({ force: true });
-    expect(await productDetailsPage.addToChartButton.textContent()).toContain(
+    await productDetailsPage.actionButton.click({ force: true });
+    expect(await productDetailsPage.actionButton.textContent()).toContain(
       "Remove"
     );
     expect(await productDetailsPage.cartBadge.textContent()).toBe("1");
-  });
-  test("check if remove button is displayed everywhere once item is added in the cart ", async ({
-    page,
-  }) => {
-    await productsListPage.firstAddToChartButton.click();
-    expect(await productsListPage.cartBadge.textContent()).toBe("1");
-    expect(await productsListPage.firstAddToChartButton.textContent()).toBe(
-      "Remove"
-    );
-    await productsListPage.itemName.first().click();
-    expect(await productDetailsPage.addToChartButton.textContent()).toContain(
-      "Remove"
-    );
     await productDetailsPage.cartBadge.click();
     expect(await cartPage.itemsInList).toHaveCount(1);
-    expect(await cartPage.addToChartButton.textContent()).toContain("Remove");
+    expect(await cartPage.actionButton.textContent()).toContain("Remove");
   });
 
-  test("check if item is removed if remove button is clicked", async ({
+  test("Check if item is removed if remove button is clicked", async ({
     page,
   }) => {
-    await productsListPage.firstAddToChartButton.click();
+    await productsListPage.firstactionButton.click();
     expect(await productsListPage.cartBadge.textContent()).toBe("1");
-    expect(await productsListPage.firstAddToChartButton.textContent()).toBe(
+    expect(await productsListPage.firstactionButton.textContent()).toBe(
       "Remove"
     );
     await productDetailsPage.cartBadge.click();
     expect(await cartPage.itemsInList).toHaveCount(1);
-    await cartPage.addToChartButton.click();
+    await cartPage.actionButton.click();
     expect(await cartPage.itemsInList).toHaveCount(0);
   });
 });

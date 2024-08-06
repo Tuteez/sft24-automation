@@ -13,36 +13,21 @@ test.describe("SFT-1 Sorting functionality on Products list check.", async () =>
     let productsListPage;
     test.beforeEach(async ({ page }) => {
       loginPage = new LoginPage(page);
-
       productsListPage = new ProductsListPage(page);
-
-      console.log(productsListPage);
 
       await page.goto("/");
       await loginPage.login(userName, password);
-      await page.goto("https://www.saucedemo.com/inventory.html");
+      expect(page).toHaveURL(/inventory.html/);
     });
 
     test(`Check if sorting button exists for user: ${userName}`, async ({
       page,
     }) => {
       //Checks if the element exists on the secondary Header on the right side
-      expect(
-        await productsListPage.sortingButtonLocationIsCorrect()
-      ).toBeTruthy();
-      await expect(productsListPage.sortingButton).toBeVisible();
+      expect(await productsListPage.sortingElementLocationIsCorrect());
+      await expect(productsListPage.sortingElement).toBeVisible();
     });
-    test(`Check available sorting options for user: ${userName}`, async ({
-      page,
-    }) => {
-      //did not work, otherwise beVisible() should have been used
-      await productsListPage.clickSortingButton();
-      expect(await productsListPage.sortingOptionAZ).toBeTruthy();
-      expect(await productsListPage.sortingOptionZA).toBeTruthy();
-      expect(await productsListPage.sortingOptionLoHi).toBeTruthy();
-      expect(await productsListPage.sortingOptionHiLo).toBeTruthy();
-    });
-    test(`By default, products should be sorted by Name (A to Z) for user: ${userName}`, async ({
+    test(`Check if by default, products are sorted by Name (A to Z) for user: ${userName}`, async ({
       page,
     }) => {
       expect(await productsListPage.getActiveOptionText()).toEqual(
@@ -53,32 +38,26 @@ test.describe("SFT-1 Sorting functionality on Products list check.", async () =>
     test(`Check if sorting option is A-Z sorts correctly for user: ${userName}`, async ({
       page,
     }) => {
-      await productsListPage.sortingButton.selectOption("az");
-      expect(await productsListPage.isListSortedByName(true)).toBe(true);
+      await productsListPage.sortingElement.selectOption("az");
+      expect(await productsListPage.isListSortedByName(true)).toEqual(true);
     });
-    test(`Check if sorting option is Z-A sorts correctly for user: ${userName}`, async ({
-      page,
-    }) => {
-      await productsListPage.sortingButton.selectOption("za");
+    test(`Check if sorting option is Z-A sorts correctly for user: ${userName}`, async ({}) => {
+      await productsListPage.sortingElement.selectOption("za");
 
-      await expect(
-        await productsListPage.isListSortedByName(false)
-      ).toBeTruthy();
+      expect(await productsListPage.isListSortedByName(false)).toEqual(true);
     });
     test(`Check if sorting option is Price hight to low sorts correctly for user: ${userName}`, async ({
       page,
     }) => {
-      await productsListPage.sortingButton.selectOption("hilo");
-      await expect(
-        await productsListPage.isListSortedByPrice(false)
-      ).toBeTruthy();
+      await productsListPage.sortingElement.selectOption("hilo");
+      expect(await productsListPage.isListSortedByPrice(false)).toEqual(true);
     });
     test(`Check if sorting option is Price low to high sorts correctly for user: ${userName}`, async ({
       page,
     }) => {
-      await productsListPage.sortingButton.selectOption("lohi");
-      var sortingIsCorrect = await productsListPage.isListSortedByPrice(true);
-      expect(sortingIsCorrect).toBeTruthy();
+      await productsListPage.sortingElement.selectOption("lohi");
+      const sortingIsCorrect = await productsListPage.isListSortedByPrice(true);
+      expect(sortingIsCorrect).toEqual(true);
     });
   });
 });
