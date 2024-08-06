@@ -10,18 +10,18 @@ import { PRODUCTS } from "../configs/products-config";
 //Runs before each test.
 test.beforeEach(async ({ page }) => {
     let openLoginPage = new loginPage(page);
-
+    
     await openLoginPage.goto();
     await openLoginPage.loginChosenUser("MAIN") // see user.config.js for possible roles
   });
     
 //first user story tests
-    test("1. Confirmation that products are sorted by name as default", async ({ page }) => {
+    test("1. Confirmation that products are sorted by 'Name (A to Z)' as default", async ({ page }) => {
          let ProductsPage = new ProductsListPage(page);
          await ProductsPage.isListSortedByName();
     });
   
-    test('2. website contains four desired sorting options', async ({ page }) => {
+    test('2. Test to determine if website contains four desired sorting options', async ({ page }) => {
         let ProductsPage = new ProductsListPage(page);
         const options = await ProductsPage.getSortOptions();
 
@@ -38,7 +38,7 @@ test.beforeEach(async ({ page }) => {
             };
     });
 
-test.describe("Product Sorting Tests", () => {
+test.describe("3. Product Sorting Tests", () => {
 
     test("3A. Sorting by name works correctly in ascending order", async ({ page }) => {
       const ProductsPage = new ProductsListPage(page);
@@ -76,11 +76,11 @@ test.describe("Product Sorting Tests", () => {
         await ProductsPage.eachProductHasButton();
     });
 
-test.describe('Product Tests', () => {
+test.describe('2. Product Tests - for adding and removing items from cart.', () => {
 
     Object.values(PRODUCTS).forEach((productName) => {
   
-      test(`2. Product can be added and removed from cart using product preview page for ${productName}`, async ({ page }) => {
+      test(`2A. Preview page - ${productName} can be added and removed from cart.`, async ({ page }) => {
         const ProductsPage = new ProductsListPage(page);
         await ProductsPage.openProductPreview(productName);
       
@@ -92,7 +92,7 @@ test.describe('Product Tests', () => {
         await PreviewPage.isProductRemovedFromCart();
       });
   
-      test(`3. Product can be added to cart just once and then removed from it for ${productName}`, async ({ page }) => {
+      test(`2B. Product list page - ${productName} can be added to cart just once and then removed from it.`, async ({ page }) => {
         const ProductsPage = new ProductsListPage(page);
         const productId = formatProductId(productName);
   
@@ -116,7 +116,7 @@ test.describe('Product Tests', () => {
         await expect(ProductsPage.addButtonLocator(productName)).toHaveText('Add to cart');
       });
   
-      test(`4. Cart has an item in it and it can be removed for ${productName}`, async ({ page }) => {
+      test(`2C. Cart page - ${productName} is in it cart and can be removed.`, async ({ page }) => {
         const ProductsPage = new ProductsListPage(page);
         const CartPages = new cartPage(page);
         const productId = formatProductId(productName);
