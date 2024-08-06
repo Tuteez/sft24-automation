@@ -1,13 +1,33 @@
 export class ProductsListPage {
   constructor(page) {
     this.page = page;
+    this.secondaryHeaderOnTheRight = page.locator(
+      '[data-test="secondary-header"] .right_component'
+    );
+    this.firstactionButton = this.page.locator("div.pricebar > button").first();
+    this.sortingElement = this.page.locator(".product_sort_container");
+    this.sortingOptionAZ = this.page.locator('option[value="az"]');
+    this.sortingOptionZA = this.page.locator('option[value="za"]');
+    this.sortingOptionLoHi = this.page.locator('option[value="lohi"]');
+    this.sortingOptionHiLo = this.page.locator('option[value="hilo"]');
+    this.activeSortingOption = this.page.locator('[data-test="active-option"]');
+    this.actionButtonButtton = this.page.locator(".pricebar > button");
+    this.itemName = this.page.locator(".inventory_item_name");
     this.itemNameDiv = page.locator('div[class="inventory_item_name"]');
     this.itemPriceDiv = page.locator('div[class="inventory_item_price"]');
+    this.cartBadge = page.locator(".shopping_cart_badge");
   }
-
-  // Below there are functions that can be used to verify if items are sorted as expected
-  // It is just an example, any other solution is welcome as well
-  // (you can use what is provided or write your own)
+  async sortingElementLocationIsCorrect() {
+    return this.secondaryHeaderOnTheRight.locator(".product_sort_container");
+  }
+  async getActiveOptionText() {
+    return this.activeSortingOption.textContent();
+  }
+  async clicksortingElement() {
+    this.sortingElement.evaluateAll(async (options) => {
+      return await options[0].showPicker();
+    });
+  }
 
   /**
    * Checks if products are sorted properly by name
