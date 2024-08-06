@@ -14,4 +14,12 @@ export class ComputersListPage {
     await this.page.locator("#add").click();
     await expect(this.page.locator("#main h1")).toHaveText("Add a computer");
   }
+
+  async searchWrongComputers(name) {
+    await this.page.locator("#searchbox").fill(name);
+    await this.page.locator("#searchsubmit").click();
+    await expect(this.page.locator(".well")).toHaveText("Nothing to display");
+  }
 }
+
+
