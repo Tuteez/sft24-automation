@@ -28,8 +28,14 @@ export class ProductsListPage {
   };
 
   async selectSortingOption(value) {
-    await this.sortContainer.selectOption(value)
+    await this.sortContainer.selectOption(value);
+    // Wait for sorting operation to complete
+    await this.page.waitForTimeout(2000);
   };
+
+  async getSelectedSortingOption() {
+    return await this.sortContainer.inputValue();
+  }
 
  async checkIfEachProductHasButton() { // count all product descriptions and all product buttons and see if the same amount
   expect(this.allProductDescriptions.length).toBe(this.allProductButtons.length); 
@@ -136,11 +142,17 @@ async isProductRemovedFromCart() {
    * @returns True if list sorted as expected, else false
    */
   async isListSorted(list, asc) {
-    return list.every(function (num, idx, arr) {
-      if (asc === true) {
-        return num <= arr[idx + 1] || idx === arr.length - 1 ? true : false;
+    for (let i = 0; i < list.length - 1; i++) {
+      if (asc) {
+        if (list[i] > list[i + 1]) {
+          return false;
+        }
+      } else {
+        if (list[i] < list[i + 1]) {
+          return false;
+        }
       }
-      return num >= arr[idx + 1] || idx === arr.length - 1 ? true : false;
-    });
+    }
+    return true;
   }
 }

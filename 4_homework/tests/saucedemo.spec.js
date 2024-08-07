@@ -12,7 +12,7 @@ test.beforeEach(async ({ page }) => {
     let openLoginPage = new loginPage(page);
     
     await openLoginPage.goto();
-    await openLoginPage.loginChosenUser("ERROR") // see user.config.js for possible roles
+    await openLoginPage.loginChosenUser("MAIN") // see user.config.js for possible roles
   });
     
 //first user story tests
@@ -43,6 +43,8 @@ test.describe("3. Product Sorting Tests", () => {
     test("3A. Sorting by name works correctly in ascending order", async ({ page }) => {
       const ProductsPage = new ProductsListPage(page);
       await ProductsPage.selectSortingOption("az"); // Sort A-Z
+      const selectedOption = await ProductsPage.getSelectedSortingOption();
+      expect(selectedOption).toBe("az"); // Ensures the sorting option is set correctly
       const isSortedAsc = await ProductsPage.isListSortedByName(true);
       expect(isSortedAsc).toBe(true);
     });
@@ -50,6 +52,8 @@ test.describe("3. Product Sorting Tests", () => {
     test("3B. Sorting by name works correctly in descending order", async ({ page }) => {
       const ProductsPage = new ProductsListPage(page);
       await ProductsPage.selectSortingOption("za"); // Sort Z-A
+      const selectedOption = await ProductsPage.getSelectedSortingOption();
+      expect(selectedOption).toBe("za"); // Ensures the sorting option is set correctly
       const isSortedDesc = await ProductsPage.isListSortedByName(false);
       expect(isSortedDesc).toBe(true);
     });
@@ -57,6 +61,8 @@ test.describe("3. Product Sorting Tests", () => {
     test("4A. Sorting by price works correctly in ascending order", async ({ page }) => {
       const ProductsPage = new ProductsListPage(page);
       await ProductsPage.selectSortingOption("lohi"); // Sort Price Low to High
+      const selectedOption = await ProductsPage.getSelectedSortingOption();
+      expect(selectedOption).toBe("lohi"); // Ensures the sorting option is set correctly
       const isSortedAsc = await ProductsPage.isListSortedByPrice(true);
       expect(isSortedAsc).toBe(true);
     });
@@ -64,6 +70,8 @@ test.describe("3. Product Sorting Tests", () => {
     test("4B. Sorting by price works correctly in descending order", async ({ page }) => {
       const ProductsPage = new ProductsListPage(page);
       await ProductsPage.selectSortingOption("hilo"); // Sort Price High to Low
+      const selectedOption = await ProductsPage.getSelectedSortingOption();
+      expect(selectedOption).toBe("hilo"); // Ensures the sorting option is set correctly
       const isSortedDesc = await ProductsPage.isListSortedByPrice(false);
       expect(isSortedDesc).toBe(true);
     });
