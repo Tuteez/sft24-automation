@@ -25,6 +25,7 @@ test("Is dropdown sorting element in upper right side of viewport", async ({ pag
 test("Dropdown element sorting options testing", async ({ page }) => {
     const productsViewPage = new ProductsViewPage(page);
     await productsViewPage.checkDropdownOptions();
+    expect(count).toBeGreaterThan(0);
 });
 
 //Testing if ascending sorting works correctly
