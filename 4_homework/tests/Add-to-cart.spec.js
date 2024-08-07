@@ -4,18 +4,20 @@ import {ProductsListPage} from '../pages/products-list-page';
 import { Cart } from '../pages/Cart';
 
 
-  test ('Verify adding item to Cart', async ({page})=>{
-    let loginPage = new LoginPage(page);
-    let productsListPage = new ProductsListPage(page);
-    let cart = new Cart(page)
-    await loginPage.navigate();
-    await loginPage.login('standard_user', 'secret_sauce');
+test.beforeEach(async ({ page }) => {
+    const loginPage = new LoginPage(page);
+    await loginPage.logInAsUser('standard_user', 'secret_sauce');
+  });
 
+
+  test ('Verify adding item to Cart', async ({page})=>{
     //Add product to Cart and go to Cart
+    let productsListPage = new ProductsListPage(page);
     await productsListPage.clickAddToCart();
     await productsListPage.clickGoToCart();
 
     //Verify if item in the cart is correct by checking item name
+    let cart = new Cart(page)
     let ItemInCartName = await cart.getItemInCartName();
     expect(ItemInCartName).toBe("Sauce Labs Backpack");
 
@@ -27,25 +29,18 @@ import { Cart } from '../pages/Cart';
 
 
   test ('Verify removing item from Cart', async ({page})=>{
-    let loginPage = new LoginPage(page);
-    let productsListPage = new ProductsListPage(page);
-    let cart = new Cart(page);
-    await loginPage.navigate();
-    await loginPage.login('standard_user', 'secret_sauce');
-
     //Add product to Cart and go to Cart
+    let productsListPage = new ProductsListPage(page);
     await productsListPage.clickAddToCart();
     await productsListPage.clickGoToCart();
 
-
-
     //Remove item from cart
+    let cart = new Cart(page);
     await cart.removeItemFromCart();
 
     //Verify if item was removed
     const cartItemLocator = cart.itemCartItemDiv
     const count = await cartItemLocator.count();
     expect(count).toBe(0);
-
 
   })

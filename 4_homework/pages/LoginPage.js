@@ -17,11 +17,9 @@ export class LoginPage {
   }
 
   async logInAsUser(userName,userPassword) {
-    await loginPage.navigate();
-    await loginPage.login(userName, userPassword);
+    await this.navigate();
+    await this.login(userName, userPassword);
   }
-
-
 }
 
 
