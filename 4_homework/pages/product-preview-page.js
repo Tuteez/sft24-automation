@@ -4,11 +4,11 @@ export class ProductPreviewPage {
     constructor(page) {
         this.page = page;
         this.addToCartButtonLocator = 'button[name^="add-to-cart"]';
+        this.removeButtonLocator = page.locator('#remove');
+        this.productLinkLocator = 'a[id^="item_"][id$="_title_link"]'; //need to correct
     }
 
-    async verifyAddToCartButton() {
-        expect(this.page.url().startsWith('https://www.saucedemo.com/inventory-item.html?')).toBeTruthy();
-        const addToCartButton = this.page.locator(this.addToCartButtonLocator);
-        await expect(addToCartButton).toBeVisible();
+    async enterProductPreview(item) {
+        await item.locator(this.productLinkLocator).click();
     }
 }

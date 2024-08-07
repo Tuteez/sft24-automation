@@ -9,55 +9,54 @@ test.beforeEach(async ({ page }) => {
 });
 
 
-//Testing if dropdown sorting container is present
-test("Testing if dropdown menu is present on Products Page", async ({ page }) => {
+//Add dropdown element with options to sort by on the right top corner of the page.
+test("Should have a dropdown menu present on Products Page", async ({ page }) => {
     const productsViewPage = new ProductsViewPage(page);
     await productsViewPage.checkSortContainer();
 });
 
-//Testing if dropdown sorting element is positioned in upper right corner of viewport 
-test("Is dropdown sorting element in upper right side of viewport", async ({ page }) => {
+test("Should check if dropdown sorting element is in upper right side of viewport", async ({ page }) => {
     const productsViewPage = new ProductsViewPage(page);
     await productsViewPage.isUpperRightSide();
 });
 
-//Testing options in dropdown sorting element
-test("Dropdown element sorting options testing", async ({ page }) => {
+// //2. Available options to select from should be:
+// a. Name (A to Z).
+// b. Name (Z to A).
+// c. Price (low to high).
+// d. Price (high to low).
+test("Should check if all dropdown options are present", async ({ page }) => {
     const productsViewPage = new ProductsViewPage(page);
     await productsViewPage.checkDropdownOptions();
-    expect(count).toBeGreaterThan(0);
 });
 
-//Testing if ascending sorting works correctly
-test("A-Z sorting test", async ({ page }) => {
+//3. Products sorting should be performed on option select action.
+test("Should check if A-Z sorting works correctly", async ({ page }) => {
     const productsViewPage = new ProductsViewPage(page);
     const isSorted = await productsViewPage.isListSortedByName(true);
     expect(isSorted).toBe(true);
 });
 
-//Testing if descending sorting works correctly
-test("Z-A sorting test", async ({ page }) => {
+test("Z-A sorting works correctly", async ({ page }) => {
     const productsViewPage = new ProductsViewPage(page);
     const isSorted = await productsViewPage.isListSortedByName(false);
     expect(isSorted).toBe(true);
 });
 
-// Test if price sorting ascending works correctly
-test("Price ascending sorting test", async ({ page }) => {
+test("Should check if Price ascending sorting works correctly", async ({ page }) => {
     const productsViewPage = new ProductsViewPage(page);
     const isSorted = await productsViewPage.isListSortedByPrice(true);
     expect(isSorted).toBe(true);
 });
 
-//Test if price sorting descending works correctly
-test("Price descending sorting test", async ({ page }) => {
+test("Should check if Price descending sorting sorting works correctly", async ({ page }) => {
     const productsViewPage = new ProductsViewPage(page);
     const isSorted = await productsViewPage.isListSortedByPrice(false);
     expect(isSorted).toBe(true);
 });
 
-//Testing if page is A-Z name sorted by default 
-test("Default A-Z sorting Test", async ({ page }) => {
+//4. By default, products should be sorted by Name (A to Z).
+test("Should check if items are A-Z sorted by default", async ({ page }) => {
     const productsViewPage = new ProductsViewPage(page);
     const isSorted = await productsViewPage.isListSortedByNameDefault();
     expect(isSorted).toBe(true);

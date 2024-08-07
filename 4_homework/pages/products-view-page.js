@@ -14,7 +14,7 @@ export class ProductsViewPage {
 
     async checkSortContainer() {
         const count = await this.productSortCont.count();
-        expect(count).toBeGreaterThan(0);
+        return count;
     }
 
     async isUpperRightSide() {

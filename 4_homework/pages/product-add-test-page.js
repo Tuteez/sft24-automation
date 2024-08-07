@@ -8,7 +8,7 @@ export class ProductAddTestPage {
         this.productLinkLocator = 'a[id^="item_"][id$="_title_link"]'; 
         this.cartBadge = page.locator('.shopping_cart_badge');
         this.headerContainer = page.locator('#header_container');
-        this.itemNameSelector = 'div[class="inventory_item_name "]';// Product link locator
+        this.itemNameSelector = 'div[class="inventory_item_name "]';
     }
 
     async randomProductItem() {
@@ -49,9 +49,11 @@ export class ProductAddTestPage {
         return productName;
     }
 
-    async removeButtonInCart(productName) {
-        await this.page.locator('.shopping_cart_link').click();
-        const removeButton = this.page.locator(`button[name="remove-${productName.toLowerCase().replace(/ /g, '-')}"]`);
-        await expect(removeButton).toBeVisible();
+    getRemoveButtonLocator(itemName) {
+        return this.page.locator(`button[name="remove-${itemName.toLowerCase().replace(/ /g, '-')}"]`);
+    }
+
+    async clickAddToCartButton(item) {
+        await item.locator(this.addToCartButtonLocator).click();
     }
 }
