@@ -1,3 +1,5 @@
+import { expect } from "@playwright/test";
+
 export class ProductsListPage {
   constructor(page) {
     this.page = page;
@@ -47,5 +49,47 @@ export class ProductsListPage {
       }
       return num >= arr[idx + 1] || idx === arr.length - 1 ? true : false;
     });
+  }
+
+  async hasDropdownOptions() {
+    await this.page.locator('[data-test="product-sort-container"]').click();
+    await expect(this.page.locator('[data-test="product-sort-container"] option')).toContainText(["Name (A to Z)", "Name (Z to A)",
+       "Price (low to high)", "Price (high to low)"]);
+  }
+
+  async chooseSorting(option) {
+    await this.page.locator('[data-test="product-sort-container"]').click();
+    await this.page.locator('[data-test="product-sort-container"]').selectOption(option);
+  }
+
+  async checkActiveSorting(value) {
+    await expect(this.page.locator('[data-test="active-option"]')).toContainText(value);
+  }
+
+  async checkAddToCartButton() {
+    await expect(this.page.locator('#add-to-cart-sauce-labs-backpack')).toContainText('Add to cart');
+  }
+
+  async showProductDetails() {
+    let randomProduct = Math.floor(Math.random() * 6);
+    await this.page.locator(`[data-test="item-${randomProduct}-title-link"]`).click();
+  }
+
+  async isAddToCartActive() {
+    await this.page.locator('#add-to-cart-sauce-labs-backpack').click();
+    await expect(this.page.locator('#remove-sauce-labs-backpack')).toHaveText('Remove');
+  }
+
+  async removeButtonExists() {
+    await this.page.locator('#add-to-cart-sauce-labs-backpack').click()
+    await expect(this.page.locator('[data-test="remove-sauce-labs-backpack"]')).toContainText('Remove');
+    await this.page.locator('[data-test="item-4-title-link"]').click();
+  }
+
+  async removeFromCart() {
+    await this.page.locator('#add-to-cart-sauce-labs-backpack').click()
+    await expect(this.page.locator('[data-test="shopping-cart-badge"]')).toContainText("1");
+    await this.page.locator('#remove-sauce-labs-backpack').click();
+    await this.page.locator('[data-test="shopping-cart-badge"]').count()===0;
   }
 }
