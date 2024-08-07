@@ -3,6 +3,9 @@ export class ProductsListPage {
       this.page = page;
       this.itemNameDiv = page.locator('div[class="inventory_item_name"]');
       this.itemPriceDiv = page.locator('div[class="inventory_item_price"]');
+      this.itemSortProductByDiv = page.locator('.product_sort_container');
+      this.itemAddToCartDiv = page.locator('#add-to-cart-sauce-labs-backpack')
+      this.itemGoToCartDiv = page.locator('.shopping_cart_link')
     }
   
     // Below there are functions that can be used to verify if items are sorted as expected
@@ -47,6 +50,20 @@ export class ProductsListPage {
         }
         return num >= arr[idx + 1] || idx === arr.length - 1 ? true : false;
       });
+    }
+
+
+
+    async selectSortAction(value) {
+      await this.itemSortProductByDiv.selectOption(value);
+    }
+
+    async clickAddToCart(value) {
+      await  this.itemAddToCartDiv.click();
+    }
+    
+    async clickGoToCart(value) {
+      await  this.itemGoToCartDiv.click();
     }
   }
   

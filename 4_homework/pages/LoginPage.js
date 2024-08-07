@@ -15,6 +15,13 @@ export class LoginPage {
     await this.passwordInput.fill(password);
     await this.loginButton.click();
   }
+
+  async logInAsUser(userName,userPassword) {
+    await loginPage.navigate();
+    await loginPage.login(userName, userPassword);
+  }
+
+
 }
 
 
