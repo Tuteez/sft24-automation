@@ -9,7 +9,7 @@ let usersAccount = [
     { username: 'locked_out_user', password: 'secret_sauce' }
 ];
 
-// OPTIONAL: Try to switch to any other user and check how tests perform then.
+// OPTIONAL TASK: Try to switch to any other user and check how tests perform then.
 usersAccount.forEach(user => {
     test.describe(`${user.username} tests`, () => {
         test.beforeEach(async ({ page }) => {

@@ -27,7 +27,6 @@ export class ProductAddTestPage {
 
     async checkCartValue(expectedValue) {
         const currentCartValue = parseInt(await this.cartBadge.innerText(), 10);
-        // Return a boolean indicating if the cart value matches the expected value
         return currentCartValue === expectedValue;
     }
 

@@ -18,13 +18,13 @@ export class ProductsViewPage {
     }
 
     async isUpperRightSide() {
-        const boundingBox = await this.productSortCont.boundingBox();
-        const viewportHeight = await this.page.evaluate(() => window.innerHeight);
-        const viewportWidth = await this.page.evaluate(() => window.innerWidth);
-        const isUpperSide = boundingBox.y < viewportHeight / 3;
-        const isRightSide = boundingBox.x > 2 * viewportWidth / 3;
-        expect(isUpperSide && isRightSide).toBe(true);
-      }
+      const boundingBox = await this.productSortCont.boundingBox();
+      const viewportHeight = await this.page.evaluate(() => window.innerHeight);
+      const viewportWidth = await this.page.evaluate(() => window.innerWidth);
+      const isUpperSide = boundingBox.y < viewportHeight / 3;
+      const isRightSide = boundingBox.x > 2 * viewportWidth / 3;
+      return isUpperSide && isRightSide; // Return the result instead of asserting here
+  }
     
     async checkDropdownOptions() {
         const expectedOptions = {
@@ -55,7 +55,6 @@ export class ProductsViewPage {
         let list = await this.itemNameDiv.allTextContents();
         return await this.isListSorted(list, asc);
     }
-
 
     async isListSortedByPrice(asc) {
         const option = asc ? 'lohi' : 'hilo';
