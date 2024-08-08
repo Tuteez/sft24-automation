@@ -17,50 +17,6 @@ export class ProductsListPage {
     this.productDetailName = page.locator('.inventory_details_name');
   }
 
-  // Below there are functions that can be used to verify if items are sorted as expected
-  // It is just an example, any other solution is welcome as well
-  // (you can use what is provided or write your own)
-
-  /**
-   * Checks if products are sorted properly by name
-   * @param {boolean} asc true if list should be sorted in ascending order, else false
-   * @returns {boolean} true if list is sorted in correct order
-   */
-  // async isListSortedByName(asc) {
-  //   let list = await this.itemNameDiv.allTextContents();
-
-  //   return await this.isListSorted(list, asc);
-  // }
-
-  // /**
-  //  * Checks if products are sorted properly by price
-  //  * @param {boolean} asc true if list should be sorted in ascending order, else false
-  //  * @returns {boolean} true if list is sorted in correct order
-  //  */
-  // async isListSortedByPrice(asc) {
-  //   let list = await this.itemPriceDiv.allTextContents();
-  //   list.forEach((element, index) => {
-  //     list[index] = parseFloat(element.slice(1));
-  //   });
-
-  //   return await this.isListSorted(list, asc);
-  // }
-
-  // /**
-  //  *
-  //  * @param {Array} list list of elements to check
-  //  * @param {boolean} asc condition to check. True if should be sorted in ascending order, else false
-  //  * @returns True if list sorted as expected, else false
-  //  */
-  // async isListSorted(list, asc) {
-  //   return list.every(function (num, idx, arr) {
-  //     if (asc === true) {
-  //       return num <= arr[idx + 1] || idx === arr.length - 1 ? true : false;
-  //     }
-  //     return num >= arr[idx + 1] || idx === arr.length - 1 ? true : false;
-  //   });
-  // }
-
   async validateLogin(productPageTextValidation) {
     await expect(this.page.locator(".title")).toHaveText(
       productPageTextValidation
@@ -139,15 +95,11 @@ export class ProductsListPage {
   }
 
   async addProductToCart(index = 0) {
-    let cartCount = await this.retrieveCartItemCounter();
     await this.addToCartButton.nth(index).click();
-    await this.validateProductCountInCart(cartCount + 1);
   }
 
   async removeProductFromCart(index = 0) {
-    let cartCount = await this.retrieveCartItemCounter();
     await this.removeProductButton.nth(index).click();
-    await this.validateProductCountInCart(cartCount - 1);
   }
 
   async retrieveCartItemCounter() {

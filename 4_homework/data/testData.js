@@ -1,4 +1,4 @@
-let password = "secret_sauce";
+const password = "secret_sauce";
 
 export const testData = {
     standardUser: {
