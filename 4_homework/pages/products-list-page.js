@@ -1,14 +1,18 @@
+import { expect } from "@playwright/test";
+
 export class ProductsListPage {
   constructor(page) {
     this.page = page;
     this.itemNameDiv = page.locator('div[class="inventory_item_name"]');
     this.itemPriceDiv = page.locator('div[class="inventory_item_price"]');
+    this.itemSortDropDown = page.locator('select[class="product-sort-container"]');
+    //v- kad pasirinkti pirma elementa svetaineje -v
+    this.itemAddItemToCart = page.locator('[name^="add-to-cart-"]');
+    this.removeItemFromCart = page.locator('[name="remove-sauce-labs-backpack"]');
+    this.removeCartIconChange = page.locator('[data-test="shopping-cart-badge"]');
+    this.itemPreviewButton = page.locator('[data-test="inventory-item-name"]');
+    this.itemCartButton = page.locator('[data-test="shopping-cart-link"]');
   }
-
-  // Below there are functions that can be used to verify if items are sorted as expected
-  // It is just an example, any other solution is welcome as well
-  // (you can use what is provided or write your own)
-
   /**
    * Checks if products are sorted properly by name
    * @param {boolean} asc true if list should be sorted in ascending order, else false
@@ -16,10 +20,9 @@ export class ProductsListPage {
    */
   async isListSortedByName(asc) {
     let list = await this.itemNameDiv.allTextContents();
-
+    console.log('Retrieved list:', list);
     return await this.isListSorted(list, asc);
   }
-
   /**
    * Checks if products are sorted properly by price
    * @param {boolean} asc true if list should be sorted in ascending order, else false
@@ -27,6 +30,7 @@ export class ProductsListPage {
    */
   async isListSortedByPrice(asc) {
     let list = await this.itemPriceDiv.allTextContents();
+    console.log('Retrieved list:', list);
     list.forEach((element, index) => {
       list[index] = parseFloat(element.slice(1));
     });
@@ -40,7 +44,7 @@ export class ProductsListPage {
    * @param {boolean} asc condition to check. True if should be sorted in ascending order, else false
    * @returns True if list sorted as expected, else false
    */
-  async isListSorted(list, asc) {
+   async isListSorted(list, asc) {
     return list.every(function (num, idx, arr) {
       if (asc === true) {
         return num <= arr[idx + 1] || idx === arr.length - 1 ? true : false;
@@ -48,4 +52,11 @@ export class ProductsListPage {
       return num >= arr[idx + 1] || idx === arr.length - 1 ? true : false;
     });
   }
+    
+  /**isListSorted(list, asc) {
+    return list.every((value, index, arr) => {
+        if (index === arr.length - 1) return true;
+        return asc ? value.localeCompare(arr[index + 1]) <= 0 : value.localeCompare(arr[index + 1]) >= 0;
+    });
+}*/
 }
