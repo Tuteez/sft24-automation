@@ -25,7 +25,7 @@ test("Check if each product in preview page has the 'Add to cart' button", async
     const productPreviewPage = new ProductPreviewPage(page);
     const item = await productAddTestPage.randomProductItem();
     await productPreviewPage.enterProductPreview(item); //Help! mam 401, wiesz dlaczego? 
-    await expect(page.locator(productAddTestPage.addToCartButtonLocator)).toBeVisible();
+    await expect(productAddTestPage.addToCartButtonLocator).toBeVisible();
 });
 
 //Once the user clicks on the button ‘Add to cart’
@@ -42,7 +42,7 @@ test("checking if adding products to cart test works correctly", async ({ page }
 
 //TASK 3 - Once the user clicks on the button ‘Add to cart’ button ‘Remove’ should be added to
 //3A - Cart – for each product separately.
-test("Checking if 'Remove' button appears in the cart", async ({ page }) => {
+test("Should check if 'Remove' button appears in the cart", async ({ page }) => {
     const productAddTestPage = new ProductAddTestPage(page);
     const cartPage = new CartPage(page);
     const productName = await productAddTestPage.addRandomMain();
@@ -69,12 +69,13 @@ test("Should check if remove button appear in product preview page", async ({ pa
 });
 
 //4. 4. If user clicks ‘Remove’ button related item/product should be removed from the cart
-test("Should check if remove button appear in product preview page", async ({ page }) => {
+test("Should check if remove button removes related item", async ({ page }) => {
     const productAddTestPage = new ProductAddTestPage(page);
-    const productPreviewPage = new ProductPreviewPage(page);
+    const cartPage = new CartPage(page);
     const item = await productAddTestPage.randomProductItem();
+    const itemName = await item.locator(productAddTestPage.itemNameSelector).innerText();
     await productAddTestPage.clickAddToCartButton(item);
-    await productAddTestPage.enterProductPreview(item);
-TUTAJ MUSZE WSTAWIC CLIKNIC REMOVE
-    await expect(page.locator(productAddTestPage.addToCartButtonLocator)).toBeVisible();
+    await productAddTestPage.clickCartButton();
+    await cartPage.clickRemoveButton();
+    await expect(page.locator(`text=${itemName}`)).not.toBeVisible();
 });

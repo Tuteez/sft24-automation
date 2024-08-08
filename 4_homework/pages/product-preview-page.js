@@ -11,4 +11,5 @@ export class ProductPreviewPage {
     async enterProductPreview(item) {
         await item.locator(this.productLinkLocator).click();
     }
+    
 }

@@ -4,8 +4,8 @@ export class ProductAddTestPage {
     constructor(page) {
         this.page = page;
         this.invItemLocator = page.locator('div.inventory_item');
-        this.addToCartButtonLocator = 'button[name^="add-to-cart"]'; // Add to cart button locator
-        this.productLinkLocator = 'a[id^="item_"][id$="_title_link"]'; 
+        this.addToCartButtonLocator = page.locator('button[name^="add-to-cart"]');
+        this.productLinkLocator = page.locator('a[id^="item_"][id$="_title_link"]'); 
         this.cartBadge = page.locator('.shopping_cart_badge');
         this.headerContainer = page.locator('#header_container');
         this.itemNameSelector = 'div[class="inventory_item_name "]';
@@ -35,25 +35,30 @@ export class ProductAddTestPage {
         await this.cartBadge.click();
     }
 
+    async clickAddToCartButton(item) {
+        const addButton = this.getAddToCartButtonForItem(item);
+        await addButton.click();
+    }
+
+    getAddToCartButtonForItem(item) {
+        return item.locator('button[name^="add-to-cart"]');
+    }
+    
     //To add random product to the cart from overall products view
     async addRandomMain() {
         const inventoryItems = this.invItemLocator;
         const itemCount = await inventoryItems.count();
-        
+    
         const randomItemNumber = Math.floor(Math.random() * itemCount); 
         const item = inventoryItems.nth(randomItemNumber);
-        
-        // Get the product name to verify later
+    
         const productName = await item.locator(this.itemNameSelector).innerText();
-        await item.locator(this.addToCartButtonLocator).click();
+        const addButton = this.getAddToCartButtonForItem(item);
+        await addButton.click();
         return productName;
-    }
+        }
 
     getRemoveButtonLocator(itemName) {
         return this.page.locator(`button[name="remove-${itemName.toLowerCase().replace(/ /g, '-')}"]`);
-    }
-
-    async clickAddToCartButton(item) {
-        await item.locator(this.addToCartButtonLocator).click();
-    }
+    }   
 }
