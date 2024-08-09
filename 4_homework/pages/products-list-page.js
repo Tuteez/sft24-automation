@@ -2,9 +2,7 @@ export class ProductsListPage {
   constructor(page) {
     this.page = page;
     this.itemNameDiv = page.locator(".inventory_item_name");
-    //somehow this selector didn't worked ('div[class="inventory_item_name"]') so i changed it;
     this.itemPriceDiv = page.locator('div[class="inventory_item_price"]');
-    //this selector worked
   }
 
   // Below there are functions that can be used to verify if items are sorted as expected
@@ -18,7 +16,6 @@ export class ProductsListPage {
    */
   async isListSortedByName(asc) {
     let list = await this.itemNameDiv.allTextContents();
-    console.log(">>>>>>>>>>>", list);
     return await this.isListSorted(list, asc);
   }
 
@@ -32,7 +29,6 @@ export class ProductsListPage {
     list.forEach((element, index) => {
       list[index] = parseFloat(element.slice(1));
     });
-    console.log(">>>>>>>>>>>", list);
     return await this.isListSorted(list, asc);
   }
 
@@ -44,69 +40,59 @@ export class ProductsListPage {
    */
   async isListSorted(list, asc) {
     return list.every(function (num, idx, arr) {
-      //every - jei su kiekviena reiksme bus true, tuomet tik ir bus true, jei kazkuri neatitiks, bus false
       if (asc === true) {
         return num <= arr[idx + 1] || idx === arr.length - 1 ? true : false;
-      } //num <= arr[idx + 1] tikrina ar dabartine tikrinama reiksme yra ne didesne uz sekancia po jos
-      // idx === arr.length - 1 tikrina ar tai yra paskutine reiksme
+      }
       return num >= arr[idx + 1] || idx === arr.length - 1 ? true : false;
-    }); //tikrina ar dabartine tikrinama reiksme yra ne zemesne nei sekanti
+    });
   }
 
-  //Show dropdown element location
-    async getElementLocation() {
-    return await this.page.locator(".product_sort_container").evaluate((element) => {
-    return element.getBoundingClientRect();
-  });
+  async getElementLocation() {
+    return await this.page
+      .locator(".product_sort_container")
+      .evaluate((element) => {
+        return element.getBoundingClientRect();
+      });
   }
-  
- //return all sorting options that are available
+
   async getAllSortingOptions() {
     return await this.page.locator("option");
   }
 
-//check if there are specific sorting options
   async getSortingOptionByValue(value) {
     return await this.page.locator(`option[value="${value}"]`);
   }
 
-//select specific sorting option
   async selectSortingOption(option) {
     await this.page.locator(".product_sort_container").selectOption(option);
   }
 
-  //return default sorting option
   async getActiveSortingOption() {
     return await this.page.locator(".active_option");
   }
 
-  //return how much items there are in product list
   async getAllInventoryItemCount() {
     return await this.page.locator(".inventory_item").count();
   }
 
-  //return how much 'Add to cart' buttons there are in products list
   async getAllAddToCartButtonCount() {
-    return await this.page.locator(".btn").count();
+    return await this.page.locator('button[id*="add-to-cart"]').count();
   }
 
-  //add item to cart in product list
   async addItemToCart() {
-    await this.page.waitForSelector("#add-to-cart-sauce-labs-backpack");
-    await this.page.locator("#add-to-cart-sauce-labs-backpack").click();
+    const addToCartButton = "#add-to-cart-sauce-labs-backpack";
+    await this.page.waitForSelector(addToCartButton);
+    await this.page.locator(addToCartButton).click();
   }
 
-  //return products titles
   async getProductsTitles() {
     return await this.page.locator(".inventory_item_name").all();
   }
 
-  //check if cart icon have badge after one item is added
   async getCartIconBadge() {
     return await this.page.locator(".shopping_cart_badge");
   }
 
-  //check if theres remove button in product list
   async getRemoveButton() {
     await this.page.waitForSelector("#remove-sauce-labs-backpack");
     return await this.page.locator("#remove-sauce-labs-backpack");
@@ -134,5 +120,5 @@ export class ProductsListPage {
       await this.page.waitForSelector(".inventory_item_name");
     }
   }
-   */ 
+   */
 }
