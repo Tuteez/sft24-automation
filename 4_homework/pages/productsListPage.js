@@ -1,10 +1,26 @@
-export class ProductsListPage {
+export class productsListPage {
   constructor(page) {
     this.page = page;
     this.itemNameDiv = page.locator('div[class="inventory_item_name"]');
     this.itemPriceDiv = page.locator('div[class="inventory_item_price"]');
+    this.addCart = page.locator('ID=add-to-cart-sauce-labs-backpack');
+    this.removeCart = page.locator('ID=remove-sauce-labs-backpack');
   }
-
+async addToCart(){
+  await expect(page).toHaveURL('https://www.saucedemo.com/inventory.html');
+  await this.addCart.click;
+  // Locate the element containing the shopping cart badge
+  const badgeElement = page.locator('.shopping_cart_badge[data-test="shopping-cart-badge"]');
+}
+async removeFromCart(){
+  await expect(page).toHaveURL('https://www.saucedemo.com/inventory.html');
+  await this.removeCart.click;
+  const badgeElement = page.locator('.shopping_cart_badge[data-test="shopping-cart-badge"]');
+}
+async gotoProductsPage(){
+  await this.page.goto('https://www.saucedemo.com/inventory.html');
+}
+ 
   // Below there are functions that can be used to verify if items are sorted as expected
   // It is just an example, any other solution is welcome as well
   // (you can use what is provided or write your own)
@@ -45,7 +61,7 @@ export class ProductsListPage {
       if (asc === true) {
         return num <= arr[idx + 1] || idx === arr.length - 1 ? true : false;
       }
-      return num >= arr[idx + 1] || idx === arr.length - 1 ? true : false;
+        return num >= arr[idx + 1] || idx === arr.length - 1 ? true : false;
     });
   }
 }
