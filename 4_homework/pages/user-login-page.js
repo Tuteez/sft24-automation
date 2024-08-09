@@ -6,7 +6,7 @@ export class UserLogin {
     this.page = page;
   }
 
-  async fullLogin(userName, password) {
+  async fillInLogin(userName, password) {
     await this.page.goto("https://www.saucedemo.com./");
     await this.page.locator("#user-name").fill(userName);
     await this.page.locator("#password").fill(password);

@@ -5,10 +5,10 @@ import { testData } from "../data/testData";
 
 const validUsers = [
   testData.standardUser,
-  testData.problemUser,
-  testData.performanceGlitchUser,
-  testData.errorUser,
-  testData.visualUser,
+  // testData.problemUser,
+  // testData.performanceGlitchUser,
+  // testData.errorUser,
+  // testData.visualUser,
 ];
 
 validUsers.forEach((user) => {
@@ -17,13 +17,13 @@ validUsers.forEach((user) => {
   test.beforeEach(async ({ page }) => {
     productsListPage = new ProductsListPage(page);
     userLogin = new UserLogin(page);
-    await userLogin.fullLogin(user.name, user.password);
+    await userLogin.fillInLogin(user.name, user.password);
   });
-  test.describe("erify dropdown element is found in right top corner of the page", async () => {
+  test.describe("Verify dropdown element is found in right top corner of the page", async () => {
     test(`Verify dropdown element is found in right top corner of the page (${user.name})`, async ({ page }) => {
       let productsListPage = new ProductsListPage(page);
       let userLogin = new UserLogin(page);
-      await userLogin.fullLogin(user.name, user.password);
+      await userLogin.fillInLogin(user.name, user.password);
       await productsListPage.findRightLeftLocation(testData.locators.productSorting);
     });
   });

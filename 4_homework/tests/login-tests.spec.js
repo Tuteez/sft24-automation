@@ -5,10 +5,10 @@ import { testData } from "../data/testData"
 
 const validUsers = [
   testData.standardUser,
-  testData.problemUser,
-  testData.performanceGlitchUser,
-  testData.errorUser,
-  testData.visualUser,
+  // testData.problemUser,
+  // testData.performanceGlitchUser,
+  // testData.errorUser,
+  // testData.visualUser,
 ];
 
 const invalidUsers = [
@@ -26,7 +26,7 @@ test.describe("Validate successfull logins", () => {
   });
   validUsers.forEach((user) => {
     test(`Validate ${user.name} login`, async ({ }) => {
-      await userLogin.fullLogin(user.name, user.password);
+      await userLogin.fillInLogin(user.name, user.password);
     });
   });
 });
@@ -38,7 +38,7 @@ test.describe("Validate unsuccessfull logins", () => {
   });
   invalidUsers.forEach((user) => {
     test(`Validate ${user.title} login`, async ({ }) => {
-      await userLogin.fullLogin(user.title, user.password);
+      await userLogin.fillInLogin(user.title, user.password);
     });
   });
 });

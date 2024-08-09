@@ -49,7 +49,7 @@ export class ProductsListPage {
       console.log(optionName);
       await filterOption.click();
 
-      var matchFound = false;
+      let matchFound = false;
       if (optionName === filterBy) {
         matchFound = true;
         break;
@@ -60,7 +60,6 @@ export class ProductsListPage {
   }
 
   async selectInDropdownList(filterBy) {
-
     if (filterBy === "") {
       filterBy = testData.defaultSortingOption;
     }

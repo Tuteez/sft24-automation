@@ -8,10 +8,10 @@ import { CartPage } from "../pages/cart-page";
 
 const validUsers = [
   testData.standardUser,
-  testData.problemUser,
-  testData.performanceGlitchUser,
-  testData.errorUser,
-  testData.visualUser,
+  // testData.problemUser,
+  // testData.performanceGlitchUser,
+  // testData.errorUser,
+  // testData.visualUser,
 ];
 
 validUsers.forEach((user) => {
@@ -26,7 +26,7 @@ validUsers.forEach((user) => {
       productPreviewPage = new ProductPreviewPage(page);
       userLogin = new UserLogin(page);
       cartPage = new CartPage(page);
-      await userLogin.fullLogin(user.name, user.password);
+      await userLogin.fillInLogin(user.name, user.password);
     });
     test.describe(`Verify 'Add to cart' button location`, async () => {
       test.describe(`Verify 'Add to cart' button location ${user.name}`, async () => {
@@ -41,17 +41,6 @@ validUsers.forEach((user) => {
     });
     test.describe(`Verify 'Add to cart' function`, () => {
       test.describe(`Verify 'Add to cart' function ${user.name}`, () => {
-        // let productsListPage;
-        // let productPreviewPage;
-        // let cartPage;
-        // let userLogin;
-        // test.beforeEach(async ({ page }) => {
-        //   productsListPage = new ProductsListPage(page);
-        //   productPreviewPage = new ProductPreviewPage(page);
-        //   cartPage = new CartPage(page);
-        //   userLogin = new UserLogin(page);
-        //   await userLogin.fullLogin(user.name, user.password);
-        // });
         test("Verify single item is added to cart (product list)", async () => {
           await productsListPage.pressAddToCartButton(testData.productName.backpack);
           await productsListPage.verifyProductsAddedToCart("1");

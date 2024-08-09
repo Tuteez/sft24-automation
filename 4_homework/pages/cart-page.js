@@ -10,7 +10,7 @@ export class CartPage {
   }
 
   async backToHomePage() {
-    await this.page.locator("#continue-shopping").click();
+    await this.page.locator("#back-to-products").click();
   }
 
   async removeFromCart(productName) {
