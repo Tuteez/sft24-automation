@@ -21,6 +21,3 @@ export class LoginPage {
     await this.login(userName, userPassword);
   }
 }
-
-
-

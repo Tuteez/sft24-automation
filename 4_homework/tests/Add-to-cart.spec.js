@@ -5,7 +5,7 @@ import { Cart } from '../pages/Cart';
 
 
 test.beforeEach(async ({ page }) => {
-    const loginPage = new LoginPage(page);
+    let loginPage = new LoginPage(page);
     await loginPage.logInAsUser('standard_user', 'secret_sauce');
   });
 
@@ -39,8 +39,12 @@ test.beforeEach(async ({ page }) => {
     await cart.removeItemFromCart();
 
     //Verify if item was removed
-    const cartItemLocator = cart.itemCartItemDiv
-    const count = await cartItemLocator.count();
+    let cartItemLocator = cart.itemCartItemDiv
+    let count = await cartItemLocator.count();
     expect(count).toBe(0);
 
   })
+
+  /*I know that I could optimize the performance 
+  of the code through additional work, but due to time constraints, 
+  I had to leave it as is */
