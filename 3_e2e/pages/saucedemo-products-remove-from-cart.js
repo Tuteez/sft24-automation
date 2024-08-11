@@ -10,4 +10,5 @@ export class SaucedemoProductsRemoveFromCartPage {
     await this.page.goto("https://www.saucedemo.com/static/js/components/CartItem.jsx");
     await expect(this.page.locator('onClick={() => removeFromCart(id)}')).toBeTruthy();
   }
+  //
 }

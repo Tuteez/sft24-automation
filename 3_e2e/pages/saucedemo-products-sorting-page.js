@@ -24,7 +24,7 @@ export class SaucedemoProductsSortingPage {
     await this.page.locator("#user-name").fill('standard_user');
     await this.page.locator("#password").fill('secret_sauce');
     await this.page.locator("#login-button").click();
-    await expect(this.page.locator('[data-test="active-option"]')).toContainText('Name (A to Z)'); // .toHaveText("Name (A to Z)") // ; .toContainText("Name (A to Z)")  <<-- nesu įsitikinus, kodėl nė vienas neveikia :)
+    await expect(this.page.locator('[data-test="active-option"]')).toContainText('Name (A to Z)');
   }
 
   async addToCartOnCard () {
