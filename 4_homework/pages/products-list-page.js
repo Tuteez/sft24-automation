@@ -3,8 +3,30 @@ export class ProductsListPage {
     this.page = page;
     this.itemNameDiv = page.locator('div[class="inventory_item_name"]');
     this.itemPriceDiv = page.locator('div[class="inventory_item_price"]');
+    this.selectSort = page.locator('select[data-test="product-sort-container"]');
   }
 
+  async changePageSort(value) {
+
+    await this.page.locator("select[class='product_sort_container']").selectOption(value);
+  }
+  async enterShoppingCart(){
+    await this.page.locator('#shopping_cart_container').click();
+  }
+  async enterFirstProductPreviewPage() {
+    // Wait for the product image link to be visible and click it
+    await this.page.locator('.inventory_item_img a').first().click();
+}
+  async verifyItemsInShoppingList(num){
+    await expect(this.page.locator("#cart_item")).toHaveCount(num);
+  }
+  async addFirstItemToCart(){
+    await this.page.locator('button[class="btn btn_primary btn_small btn_inventory "]').first().click();
+  }
+
+  async removeItemFromProductListPage(){
+    await this.page.locator('button[class="btn btn_secondary btn_small btn_inventory "]').first().click();
+  }
   // Below there are functions that can be used to verify if items are sorted as expected
   // It is just an example, any other solution is welcome as well
   // (you can use what is provided or write your own)
