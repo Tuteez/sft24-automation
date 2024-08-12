@@ -41,7 +41,7 @@ test("A dropdown element on the right top corner of the page.", async ({page}) =
   await sortingProductsList.sortingRightTopCorner();
 })
 
-test("Available options to select from.", async ({page}) => {
+test("A dropdown element wih available options to select from.", async ({page}) => {
   let saucedemoLoginPage = new SaucedemoLoginPage(page);
   let sortingProductsList = new SaucedemoProductsListPage(page);
 
