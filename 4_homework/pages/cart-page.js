@@ -14,12 +14,12 @@ export class cartPage {
     await expect(this.cartTitle).toHaveText("Your Cart");
   };
 
-  async CartHasItems() {
+  async checkIfCartHasItems() {
     const cartItemsCount = await this.cartItems.count();
     expect(cartItemsCount).toBeGreaterThan(0);
   };
 
-  async allCartItemsHaveRemoveButtons() {
+  async checkIfAllCartItemsHaveRemoveButtons() {
     const cartItemsCount = await this.cartItems.count();
 
     for (let i = 0; i < cartItemsCount; i++) {
