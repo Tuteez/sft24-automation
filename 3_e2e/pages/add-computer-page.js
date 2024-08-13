@@ -1,4 +1,4 @@
-import { ComputerData } from "../test-data/computer-data";
+//import { ComputerData } from "../test-data/computer-data";
 
 export class AddComputerPage {
   constructor(page) {
