@@ -5,7 +5,7 @@ export class ProductsListPage {
     this.page = page;
     this.itemNameDiv = page.locator('div[class="inventory_item_name"]');
     this.itemPriceDiv = page.locator('div[class="inventory_item_price"]');
-    this.itemSortDropDown = page.locator('select[class="product-sort-container"]');
+    this.itemSortDropDown = page.locator('select[class="product_sort_container"]');
     //v- kad pasirinkti pirma elementa svetaineje -v
     this.itemAddItemToCart = page.locator('[name^="add-to-cart-"]');
     this.removeItemFromCart = page.locator('[name="remove-sauce-labs-backpack"]');
@@ -18,6 +18,10 @@ export class ProductsListPage {
    * @param {boolean} asc true if list should be sorted in ascending order, else false
    * @returns {boolean} true if list is sorted in correct order
    */
+  async sortItemsBy(optionValue) {
+    // Use the locator in a method to interact with the dropdown
+    await this.itemSortDropDown.selectOption(optionValue);
+  }
   async isListSortedByName(asc) {
     let list = await this.itemNameDiv.allTextContents();
     console.log('Retrieved list:', list);
@@ -37,7 +41,6 @@ export class ProductsListPage {
 
     return await this.isListSorted(list, asc);
   }
-
   /**
    *
    * @param {Array} list list of elements to check
@@ -52,11 +55,4 @@ export class ProductsListPage {
       return num >= arr[idx + 1] || idx === arr.length - 1 ? true : false;
     });
   }
-    
-  /**isListSorted(list, asc) {
-    return list.every((value, index, arr) => {
-        if (index === arr.length - 1) return true;
-        return asc ? value.localeCompare(arr[index + 1]) <= 0 : value.localeCompare(arr[index + 1]) >= 0;
-    });
-}*/
 }
