@@ -1,0 +1,17 @@
+{
+  "name": "sft24-automation",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@playwright/test": "^1.46.0",
+    "create-react-app": "^1.2.1",
+    "react": "^18.3.1"
+  }
+}
