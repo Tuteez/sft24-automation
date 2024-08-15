@@ -17,7 +17,7 @@ export class ProductsListPage {
     await this.changePageSortSelectButton.selectOption(value);
   }
   async enterShoppingCart(){
-    await this.hoppingCartButton.click();
+    await this.shoppingCartButton.click();
   }
   async enterFirstProductPreviewPage() {
     // Wait for the product image link to be visible and click it
