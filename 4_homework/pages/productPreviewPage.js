@@ -1,11 +1,13 @@
 export class ProductPreviewPage{
     constructor(page){
         this.page=page;
+        this.addItemToCartButton = page.locator('button[data-test="add-to-cart"]');
+        this.removeItemButton = page.locator('button[data-test="remove"]');
     }
     async addItemToCart(){
-        await this.page.locator('button[data-test="add-to-cart"]').click();
+        await this.addItemToCartButton.click();
     }
     async removeItemFromCart(){
-        await this.page.locator('button[data-test="remove"]').click();
+        await this.removeItemButton.click();
     }
 }

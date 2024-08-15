@@ -4,28 +4,32 @@ export class ProductsListPage {
     this.itemNameDiv = page.locator('div[class="inventory_item_name"]');
     this.itemPriceDiv = page.locator('div[class="inventory_item_price"]');
     this.selectSort = page.locator('select[data-test="product-sort-container"]');
-  }
+    this.changePageSortSelectButton = page.locator("select[class='product_sort_container']");
+    this.shoppingCartButton = page.locator('#shopping_cart_container');
+    this.productPreviewPageElement = page.locator('.inventory_item_img a');
 
+    this.addItemToCartButton = page.locator('button[class="btn btn_primary btn_small btn_inventory "]');
+    this.removeItemFromCartButton = page.locator('button[class="btn btn_secondary btn_small btn_inventory "]');
+
+  }
   async changePageSort(value) {
 
-    await this.page.locator("select[class='product_sort_container']").selectOption(value);
+    await this.changePageSortSelectButton.selectOption(value);
   }
   async enterShoppingCart(){
-    await this.page.locator('#shopping_cart_container').click();
+    await this.hoppingCartButton.click();
   }
   async enterFirstProductPreviewPage() {
     // Wait for the product image link to be visible and click it
-    await this.page.locator('.inventory_item_img a').first().click();
+    await this.productPreviewPageElement.first().click();
 }
-  async verifyItemsInShoppingList(num){
-    await expect(this.page.locator("#cart_item")).toHaveCount(num);
-  }
+ 
   async addFirstItemToCart(){
-    await this.page.locator('button[class="btn btn_primary btn_small btn_inventory "]').first().click();
+    await this.addItemToCartButton.first().click();
   }
 
   async removeItemFromProductListPage(){
-    await this.page.locator('button[class="btn btn_secondary btn_small btn_inventory "]').first().click();
+    await this.removeItemFromCartButton.first().click();
   }
   // Below there are functions that can be used to verify if items are sorted as expected
   // It is just an example, any other solution is welcome as well

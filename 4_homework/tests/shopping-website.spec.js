@@ -5,22 +5,7 @@ import { ProductsListPage } from "../pages/products-list-page";
 import { ProductPreviewPage } from "../pages/productPreviewPage";
 import { ShoppingCart } from "../pages/shoppingCart";
 //Log in to page
-test ("Log In to website", async ({ page }) => {
-    let logInPage = new LogInPage (page);
-    let userData =  new UserData (
-        "standard_user",
-        "secret_sauce"
-    );
 
-    await logInPage.openPage();
-    await logInPage.fillUserNameAndPassword(userData);
-});
-test ("Log In to website - 2", async ({ page }) => {
-    let logInPage = new LogInPage (page);
-    
-    await logInPage.enterWebsite();
-
-});
 
 const differentUserLogInInfo = [
     new UserData("standard_user", "secret_sauce"),
