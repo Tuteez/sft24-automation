@@ -11,27 +11,19 @@ export class LogInPage {
 
 async openPage(){
     await this.page.goto("https://www.saucedemo.com/");
-    //await expect(this.page).toHaveTitle("Swag Labs");
 }
     
-
 async fillUserNameAndPassword(user) {
     await this.userNameInput.fill(user.username);
     await this.passwordInput.fill(user.password);
     }
-    /*
-    await this.page.locator('#user-name').fill(userData.username);
-    await this.page.locator('#password').fill(userData.password);
-    await this.page.locator('#login-button').click();*/
-//test
-
+    
 async enterWebsite (){
     let userData =  new UserData (
         "standard_user",
         "secret_sauce"
     );
-//test
     await this.openPage();
     await this.fillUserNameAndPassword(userData);
-}
+    }
 }
