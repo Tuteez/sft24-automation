@@ -3,8 +3,37 @@ export class ProductsListPage {
     this.page = page;
     this.itemNameDiv = page.locator('div[class="inventory_item_name"]');
     this.itemPriceDiv = page.locator('div[class="inventory_item_price"]');
+    this.selectSort = page.locator('select[data-test="product-sort-container"]');
+    this.changePageSortSelectButton = page.locator("select[class='product_sort_container']");
+    this.shoppingCartButton = page.locator('#shopping_cart_container');
+    this.productPreviewPageElement = page.locator('.inventory_item_img a');
+    this.addItemToCartButton = page.locator('button[class="btn btn_primary btn_small btn_inventory "]');
+    this.removeItemFromCartButton = page.locator('button[class="btn btn_secondary btn_small btn_inventory "]');
+
+  }
+  async changePageSort(value) {
+
+    await this.changePageSortSelectButton.selectOption(value);
+  }
+  async enterShoppingCart(){
+    await this.shoppingCartButton.click();
+  }
+  async enterFirstProductPreviewPage() {
+    // Wait for the product image link to be visible and click it
+    await this.productPreviewPageElement.first().click();
+}
+ 
+  async addFirstItemToCart(){
+    await this.addItemToCartButton.first().click();
   }
 
+  async removeItemFromProductListPage(){
+    await this.removeItemFromCartButton.first().click();
+  }
+  getAddToCartButton() {
+    // Return the "Add to Cart" button locator
+    return this.addItemToCartButton.first();
+  }
   // Below there are functions that can be used to verify if items are sorted as expected
   // It is just an example, any other solution is welcome as well
   // (you can use what is provided or write your own)
@@ -37,7 +66,7 @@ export class ProductsListPage {
   /**
    *
    * @param {Array} list list of elements to check
-   * @param {boolean} asc condition to check. True if should be sorted in ascending order, else false
+   * @param {boolean} asc condition to check True if should be sorted in ascending order, else false
    * @returns True if list sorted as expected, else false
    */
   async isListSorted(list, asc) {
