@@ -8,7 +8,7 @@ export class ProductsListPage {
     this.cartButton = page.locator('.shopping_cart_link');
     this.cartItems = page.locator('.cart_item');
   }
-
+//kom
   /**
    * Selects a sorting option from the dropdown menu.
    * @param {string} option - The value of the sorting option to select.
