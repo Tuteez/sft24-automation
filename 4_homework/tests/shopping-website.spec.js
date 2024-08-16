@@ -63,31 +63,30 @@ const differentUserLogInInfo = [
 //#2nd user story. SFT-2 Ability to add swag to cart.
     test('TEST 2.1a Add item from a. Products list ', async ({ page }) => {
         await productsListPage.addFirstItemToCart();
-       
-        const cartBadge = page.locator('.shopping_cart_badge');
-        await expect(cartBadge).toHaveText('1');
+        await expect(productsListPage.getAddToCartButton()).toHaveText("Add to cart");
     });
-    test('TEST 2.1b Add item from a. Products list ', async ({ page }) => {
+    test('TEST 2.1b Add item from a. Products preview page ', async ({ page }) => {
         await productsListPage.enterFirstProductPreviewPage();
         productPreviewPage.addItemToCart();
-        const cartBadge = page.locator('.shopping_cart_badge');
-        await expect(cartBadge).toHaveText('1');
+        await expect(productPreviewPage.getCartBadge()).toHaveText('1');
     });
     test('TEST 2.2a Remove item from the shopping cart', async ({ page }) => {
         await productsListPage.addFirstItemToCart();
         await productsListPage.enterShoppingCart();
         await shoppingCart.removeItemFromTheCart();
+        await expect(shoppingCart.getRemovedCartItem()).toHaveCount(1); 
     });
     test('TEST 2.2b Remove item from the product list', async ({ page }) => {
         await productsListPage.addFirstItemToCart();
         await productsListPage.removeItemFromProductListPage();
-        await expect(page.locator('button.btn.btn_primary.btn_small.btn_inventory').first()).toHaveText("Add to cart");
+        await expect(productsListPage.getAddToCartButton()).toHaveText("Add to cart");
     });
     test('TEST 2.2c Remove item from the preview page', async ({ page }) => {
         await productsListPage.addFirstItemToCart();
         await productsListPage.enterFirstProductPreviewPage();
         await productPreviewPage.removeItemFromCart();
-        await expect(page.locator('button.btn.btn_primary.btn_small.btn_inventory')).toHaveText("Add to cart");
+        const isAddToCartVisible = await productPreviewPage.isAddToCartButtonVisible();
+        expect(isAddToCartVisible).toBe(true);
     });
     });
   });

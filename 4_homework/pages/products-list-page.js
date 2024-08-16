@@ -7,7 +7,6 @@ export class ProductsListPage {
     this.changePageSortSelectButton = page.locator("select[class='product_sort_container']");
     this.shoppingCartButton = page.locator('#shopping_cart_container');
     this.productPreviewPageElement = page.locator('.inventory_item_img a');
-
     this.addItemToCartButton = page.locator('button[class="btn btn_primary btn_small btn_inventory "]');
     this.removeItemFromCartButton = page.locator('button[class="btn btn_secondary btn_small btn_inventory "]');
 
@@ -30,6 +29,10 @@ export class ProductsListPage {
 
   async removeItemFromProductListPage(){
     await this.removeItemFromCartButton.first().click();
+  }
+  getAddToCartButton() {
+    // Return the "Add to Cart" button locator
+    return this.addItemToCartButton.first();
   }
   // Below there are functions that can be used to verify if items are sorted as expected
   // It is just an example, any other solution is welcome as well
