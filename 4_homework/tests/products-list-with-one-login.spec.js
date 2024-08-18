@@ -1,4 +1,4 @@
-// tests/products-list.spec.js
+
 import { test, expect } from '@playwright/test';
 import {LoginPage} from '../pages/LoginPage';
 import {ProductsListPage} from '../pages/products-list-page';

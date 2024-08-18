@@ -82,33 +82,26 @@ users.forEach((user) => {
       expect(isSorted).toBe(true);
     });
 
-    test('Verify adding item to Cart for ${user.username}', async ({ page }) => {
-      //Add product to Cart and go to Cart
+    test('Verify if adding item to Cart for ${user.username}', async ({ page }) => {
       let productsListPage = new ProductsListPage(page);
+      let cart = new Cart(page);
+      let ItemInCartName = await cart.getItemInCartName();
       await productsListPage.clickAddToCart();
       await productsListPage.clickGoToCart();
 
-      //Verify if item in the cart is correct by checking item name
-      let cart = new Cart(page);
-      let ItemInCartName = await cart.getItemInCartName();
       expect(ItemInCartName).toBe("Sauce Labs Backpack");
 
-      //Verify if item in the cart is correct by checking item price
       let ItemInCartPrice = await cart.getItemInCartPrice();
       expect(ItemInCartPrice).toBe("$29.99");
     });
 
-    test('Verify removing item from Cart for ${user.username}', async ({ page }) => {
-      //Add product to Cart and go to Cart
+    test('Verify if removing item from Cart for ${user.username}', async ({ page }) => {
       let productsListPage = new ProductsListPage(page);
+      let cart = new Cart(page);
       await productsListPage.clickAddToCart();
       await productsListPage.clickGoToCart();
-
-      //Remove item from cart
-      let cart = new Cart(page);
       await cart.removeItemFromCart();
 
-      //Verify if item was removed
       const cartItemLocator = cart.itemCartItemDiv;
       const count = await cartItemLocator.count();
       expect(count).toBe(0);

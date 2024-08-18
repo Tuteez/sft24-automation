@@ -1,4 +1,3 @@
-// tests/products-list.spec.js
 import { test, expect } from '@playwright/test';
 import {LoginPage} from '../pages/LoginPage';
 import {ProductsListPage} from '../pages/products-list-page';
@@ -36,5 +35,3 @@ test('Sort products by price in descending order', async ({ page }) => {
   let isSorted = await productsListPage.isListSortedByPrice(false);
   expect(isSorted).toBe(true);
 });
-/* I leave both files (product-list and product-list-with-one-login) trying to optimize with one login 
-but I am aware that it is also not optimal (if first test fail then others don't run)*/

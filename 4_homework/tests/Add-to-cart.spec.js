@@ -13,6 +13,7 @@ test.beforeEach(async ({ page }) => {
   test ('Verify adding item to Cart', async ({page})=>{
     //Add product to Cart and go to Cart
     let productsListPage = new ProductsListPage(page);
+
     await productsListPage.clickAddToCart();
     await productsListPage.clickGoToCart();
 

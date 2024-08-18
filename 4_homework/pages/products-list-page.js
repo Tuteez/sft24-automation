@@ -6,11 +6,10 @@ export class ProductsListPage {
       this.itemSortProductByDiv = page.locator('.product_sort_container');
       this.itemAddToCartDiv = page.locator('#add-to-cart-sauce-labs-backpack')
       this.itemGoToCartDiv = page.locator('.shopping_cart_link')
+      this.itemProductName = page.locator('.inventory_item_name')
+      this.itemProductPrice = page.locator('.inventory_item_price')
     }
   
-    // Below there are functions that can be used to verify if items are sorted as expected
-    // It is just an example, any other solution is welcome as well
-    // (you can use what is provided or write your own)
   
     /**
      * Checks if products are sorted properly by name
@@ -65,5 +64,18 @@ export class ProductsListPage {
     async clickGoToCart(value) {
       await  this.itemGoToCartDiv.click();
     }
+
+    async getFirstProductName() {
+      let ItemProductName = await this.itemProductName.textContent();
+      return ItemProductName;
+    }
+
+
+    async getFirstProductPrice() {
+      let ItemProductPrice = await this.itemProductPrice.textContent();
+      return ItemProductPrice;
+    }
+
+
   }
   
