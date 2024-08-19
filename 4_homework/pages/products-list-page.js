@@ -92,4 +92,8 @@ export class ProductsListPage {
     await this.page.locator('#remove-sauce-labs-backpack').click();
     await this.page.locator('[data-test="shopping-cart-badge"]').count()===0;
   }
+
+  async isProductAdded() {
+    await expect(this.page.locator('[data-test="shopping-cart-badge"]')).toContainText("1");
+  }
 }

@@ -5,7 +5,7 @@ import { ProductPreviewPage } from "../pages/product-preview-page";
 import { CartPage } from "../pages/cart-page";
 
 // SFT-1 Sorting functionality on Product list.
-test.describe("Sorting functionality on Product list as a standard_user", () => {
+test.describe("Checks if sorting functionality on a product list works as expected for a standard_user", () => {
   
   let loginPage;
   let productListPage;
@@ -25,24 +25,28 @@ test.describe("Sorting functionality on Product list as a standard_user", () => 
 
     await productListPage.chooseSorting("az");
     expect(await productListPage.isListSortedByName(true)).toBe(true);
+    await productListPage.checkActiveSorting("Name (A to Z)");
   });
 
   test("Product sorting by name (Z to A)", async () => {
 
     await productListPage.chooseSorting("za");
     expect(await productListPage.isListSortedByName(false)).toBe(true);
+    await productListPage.checkActiveSorting("Name (Z to A)");
   });
 
   test("Product sorting by price (low to high)", async () => {
 
     await productListPage.chooseSorting("lohi");
     expect(await productListPage.isListSortedByName(true)).toBe(true);
+    await productListPage.checkActiveSorting("Price (low to high)");
   });
 
   test("Product sorting by price (high to low)", async () => {
 
     await productListPage.chooseSorting("hilo");
     expect(await productListPage.isListSortedByName(false)).toBe(true);
+    await productListPage.checkActiveSorting("Price (high to low)");
   });
 
   test("Check default product sorting (A to Z)", async () => {
@@ -52,7 +56,7 @@ test.describe("Sorting functionality on Product list as a standard_user", () => 
 });
 
 // SFT-2 Ability to add swag to cart.
-test.describe("Adding swag to cart and removing it", () => {
+test.describe("Checks if adding and removing swag from a cart works as expected for standard_user", () => {
 
   let loginPage;
   let productListPage; 
@@ -77,6 +81,7 @@ test.describe("Adding swag to cart and removing it", () => {
   test('Adding a swag to cart', async () => {
 
     await productListPage.isAddToCartActive();
+    await productListPage.isProductAdded();
   });
 
   test('Button "Remove" in three places', async () => {
