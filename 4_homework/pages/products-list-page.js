@@ -6,6 +6,9 @@ export class ProductsListPage {
       this.itemSortProductByDiv = page.locator('.product_sort_container');
       this.itemAddToCartDiv = page.locator('#add-to-cart-sauce-labs-backpack')
       this.itemGoToCartDiv = page.locator('.shopping_cart_link')
+
+
+      this.itemAddToCartButton = page.locator('.btn_inventory')
       this.itemProductName = page.locator('.inventory_item_name')
       this.itemProductPrice = page.locator('.inventory_item_price')
     }
@@ -52,28 +55,27 @@ export class ProductsListPage {
     }
 
 
-
     async selectSortAction(value) {
       await this.itemSortProductByDiv.selectOption(value);
     }
 
-    async clickAddToCart(value) {
-      await  this.itemAddToCartDiv.click();
+
+
+    async clickAddToCartByIndex(index){
+      await this.itemAddToCartButton.nth(index).click();
     }
-    
+
     async clickGoToCart(value) {
       await  this.itemGoToCartDiv.click();
     }
 
-    async getFirstProductName() {
-      let ItemProductName = await this.itemProductName.textContent();
-      return ItemProductName;
+
+    async getProductNameByIndex(index) {
+      return await this.itemProductName.nth(index).textContent();
     }
-
-
-    async getFirstProductPrice() {
-      let ItemProductPrice = await this.itemProductPrice.textContent();
-      return ItemProductPrice;
+    
+    async getProductPriceByIndex(index) {
+      return await this.itemProductPrice.nth(index).textContent();
     }
 
 
