@@ -7,7 +7,6 @@ export class ProductsListPage {
       this.itemAddToCartDiv = page.locator('#add-to-cart-sauce-labs-backpack')
       this.itemGoToCartDiv = page.locator('.shopping_cart_link')
 
-
       this.itemAddToCartButton = page.locator('.btn_inventory')
       this.itemProductName = page.locator('.inventory_item_name')
       this.itemProductPrice = page.locator('.inventory_item_price')

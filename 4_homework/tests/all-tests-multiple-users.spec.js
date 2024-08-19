@@ -82,30 +82,48 @@ users.forEach((user) => {
       expect(isSorted).toBe(true);
     });
 
-    test('Verify if adding item to Cart for ${user.username}', async ({ page }) => {
+
+    test ('Verify if correct item was added to cart for ${user.username}', async ({page})=>{
       let productsListPage = new ProductsListPage(page);
-      let cart = new Cart(page);
+      const productIndex = 0;
+      let productName = await productsListPage.getProductNameByIndex(productIndex);
+      let productPrice = await productsListPage.getProductPriceByIndex(productIndex);
+      await productsListPage.clickAddToCartByIndex(productIndex);
+      await productsListPage.clickGoToCart();
+  
+      let cart = new Cart(page)
       let ItemInCartName = await cart.getItemInCartName();
-      await productsListPage.clickAddToCart();
-      await productsListPage.clickGoToCart();
-
-      expect(ItemInCartName).toBe("Sauce Labs Backpack");
-
+      expect(ItemInCartName).toBe(productName);
       let ItemInCartPrice = await cart.getItemInCartPrice();
-      expect(ItemInCartPrice).toBe("$29.99");
-    });
-
-    test('Verify if removing item from Cart for ${user.username}', async ({ page }) => {
+      expect(ItemInCartPrice).toBe(productPrice);
+    })
+  
+    test ('Verify if one item was added to cart for ${user.username}', async ({page})=>{
       let productsListPage = new ProductsListPage(page);
-      let cart = new Cart(page);
-      await productsListPage.clickAddToCart();
+      const productIndex = 0;
+      await productsListPage.clickAddToCartByIndex(productIndex);
       await productsListPage.clickGoToCart();
+  
+      let cart = new Cart(page)
+      let ItemInCartCount = await cart.getItemsCount();
+      expect(ItemInCartCount).toBe(1);
+    })
+  
+  
+    test ('Verify if removing item from Cart works for ${user.username}', async ({page})=>{
+      let productsListPage = new ProductsListPage(page);
+      const productIndex = 0;
+      await productsListPage.clickAddToCartByIndex(productIndex);
+      await productsListPage.clickGoToCart();
+  
+      let cart = new Cart(page);
       await cart.removeItemFromCart();
-
-      const cartItemLocator = cart.itemCartItemDiv;
-      const count = await cartItemLocator.count();
+      let cartItemLocator = cart.itemCartItemDiv
+      let count = await cartItemLocator.count();
       expect(count).toBe(0);
-    });
+    })
+  
+
   });
 });
 /*For the problem_user and error_user tests, the test for 

@@ -10,27 +10,34 @@ test.beforeEach(async ({ page }) => {
   });
 
 
-  test ('Verify adding item to Cart', async ({page})=>{
+  test ('Verify if correct item was added to cart', async ({page})=>{
     let productsListPage = new ProductsListPage(page);
-
     const productIndex = 0;
     let productName = await productsListPage.getProductNameByIndex(productIndex);
     let productPrice = await productsListPage.getProductPriceByIndex(productIndex);
-    
     await productsListPage.clickAddToCartByIndex(productIndex);
     await productsListPage.clickGoToCart();
 
     let cart = new Cart(page)
     let ItemInCartName = await cart.getItemInCartName();
     expect(ItemInCartName).toBe(productName);
-
     let ItemInCartPrice = await cart.getItemInCartPrice();
     expect(ItemInCartPrice).toBe(productPrice);
+  })
 
+  test ('Verify if one item was added to cart', async ({page})=>{
+    let productsListPage = new ProductsListPage(page);
+    const productIndex = 0;
+    await productsListPage.clickAddToCartByIndex(productIndex);
+    await productsListPage.clickGoToCart();
+
+    let cart = new Cart(page)
+    let ItemInCartCount = await cart.getItemsCount();
+    expect(ItemInCartCount).toBe(1);
   })
 
 
-  test ('Verify removing item from Cart', async ({page})=>{
+  test ('Verify if removing item from Cart works', async ({page})=>{
     let productsListPage = new ProductsListPage(page);
     const productIndex = 0;
     await productsListPage.clickAddToCartByIndex(productIndex);
@@ -38,11 +45,9 @@ test.beforeEach(async ({ page }) => {
 
     let cart = new Cart(page);
     await cart.removeItemFromCart();
-
     let cartItemLocator = cart.itemCartItemDiv
     let count = await cartItemLocator.count();
     expect(count).toBe(0);
-
   })
 
 

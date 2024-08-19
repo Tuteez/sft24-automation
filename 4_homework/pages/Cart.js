@@ -5,10 +5,8 @@ export class Cart {
       this.itemPriceDiv = page.locator('.inventory_item_price');
       this.itemRemoveButtonDiv = page.locator('#remove-sauce-labs-backpack');
       this.itemRemovedCartItemDiv = page.locator('.removed_cart_item');
-      //this.itemCartItemDiv = page.locator('.removed_cart_item');
       this.itemCartItemDiv = page.locator('.cart_item');
     }
-
 
     async getItemInCartName() {
         let ItemInCartName = await this.itemNameDiv.textContent();
@@ -23,4 +21,8 @@ export class Cart {
         await this.itemRemoveButtonDiv.click();
     }
 
+    async getItemsCount() {
+        let items = await this.itemCartItemDiv.count();
+        return items;
+    }
 }
