@@ -2,12 +2,15 @@ import { test, expect } from '@playwright/test';
 import {LoginPage} from '../pages/LoginPage';
 import {ProductsListPage} from '../pages/products-list-page';
 import { Cart } from '../pages/Cart';
+import users from '../pages/LoginUsers';
 
-
-test.beforeEach(async ({ page }) => {
-    let loginPage = new LoginPage(page);
-    await loginPage.logInAsUser('standard_user', 'secret_sauce');
-  });
+users.forEach((user) => {
+  test.describe(`Tests for ${user.username}`, () => {
+    test.beforeEach(async ({ page }) => {
+      console.log(`Running tests for user: ${user.username}`);
+      const loginPage = new LoginPage(page);
+      await loginPage.logInAsUser(user.username, user.password);
+    });
 
 
   test ('Verify if correct item was added to cart', async ({page})=>{
@@ -49,5 +52,6 @@ test.beforeEach(async ({ page }) => {
     let count = await cartItemLocator.count();
     expect(count).toBe(0);
   })
-
+  })
+})
 
